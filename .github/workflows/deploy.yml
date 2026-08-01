@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages
 
 # Build the static Next.js export and publish it to GitHub Pages.
-# The BASE_PATH is derived automatically from the repository name so that
-# project sites (https://<user>.github.io/<repo>/) resolve their assets
-# correctly. For a user page (<user>.github.io) this still works because
-# the repo name equals "<user>.github.io" and we special-case it below.
+# BASE_PATH is derived automatically:
+#   - If a public/CNAME file exists (custom domain), the site serves from the
+#     root, so BASE_PATH is empty.
+#   - For a user page (<user>.github.io) it's also empty.
+#   - Otherwise (project page at github.io/<repo>) it's "/<repo>".
 
 on:
   push:
@@ -41,7 +42,10 @@ jobs:
         id: base
         run: |
           REPO="${GITHUB_REPOSITORY#*/}"
-          if [[ "$REPO" == *.github.io ]]; then
+          if [[ -f public/CNAME ]]; then
+            # Custom domain -> served from the root.
+            echo "path=" >> "$GITHUB_OUTPUT"
+          elif [[ "$REPO" == *.github.io ]]; then
             echo "path=" >> "$GITHUB_OUTPUT"
           else
             echo "path=/$REPO" >> "$GITHUB_OUTPUT"

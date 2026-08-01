@@ -32,7 +32,7 @@ const jetbrains = JetBrains_Mono({
 /* -------------------------------------------------------------------------- */
 
 // Public site URL — override with NEXT_PUBLIC_SITE_URL at build time.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://hassadem.github.io';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://soldevhassan.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

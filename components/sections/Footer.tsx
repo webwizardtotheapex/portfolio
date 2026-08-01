@@ -1,7 +1,8 @@
 'use client';
 
-import { Zap, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { socials, navItems, personal, contact } from '@/lib/data';
+import { Logo } from '../Logo';
 
 /**
  * Site footer — brand blurb, quick nav, all social icons and a back-to-top
@@ -15,13 +16,8 @@ export function Footer() {
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-5 py-16 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr]">
         {/* Brand */}
         <div>
-          <a href="#home" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
-              <Zap className="h-5 w-5 text-white" />
-            </span>
-            <span className="font-display text-lg font-bold text-white">
-              {personal.name}
-            </span>
+          <a href="#home" aria-label="Toyslab Tech — home" className="inline-flex">
+            <Logo heightClass="h-11" />
           </a>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/55">
             {personal.role} — {personal.shortBio}
@@ -97,7 +93,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 px-5 py-6 sm:flex-row sm:px-8">
           <p className="text-xs text-white/45">
-            © {year} {personal.name}.
+            © {year} {personal.name} · Toyslab Tech and Innovations Ltd. (RC 9053103).
           </p>
           <a
             href="#home"

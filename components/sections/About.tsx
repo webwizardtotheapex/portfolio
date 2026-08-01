@@ -6,6 +6,7 @@ import { SectionHeading } from '../SectionHeading';
 import { GlassCard } from '../GlassCard';
 import { Reveal, Stagger, StaggerItem } from '../Reveal';
 import { Badge } from '../Badge';
+import { Logo } from '../Logo';
 
 /** Highlight cards summarizing what Isa does. */
 const highlights = [
@@ -67,6 +68,20 @@ export function About() {
                 <p className="mt-1 text-base font-medium text-white">
                   {personal.goal}
                 </p>
+              </div>
+            </div>
+
+            {/* Company badge */}
+            <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:flex-row sm:items-center">
+              <Logo heightClass="h-10" />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/45">
+                  Founder
+                </p>
+                <p className="mt-0.5 text-base font-medium text-white">
+                  Toyslab Tech and Innovations Ltd.
+                </p>
+                <p className="text-xs text-white/40">RC 9053103</p>
               </div>
             </div>
           </GlassCard>

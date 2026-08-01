@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, Zap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { navItems, contact } from '@/lib/data';
 import { GlowLink } from '../GlowButton';
+import { Logo } from '../Logo';
 import { cn } from '@/lib/utils';
 
 /**
@@ -62,18 +63,8 @@ export function Navbar() {
         )}
       >
         {/* Brand / logo */}
-        <a href="#home" className="group flex items-center gap-2.5">
-          <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
-            <Zap className="h-5 w-5 text-white" />
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="font-display text-sm font-bold tracking-tight text-white">
-              Isa Hassan
-            </span>
-            <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/45">
-              AI Automation
-            </span>
-          </span>
+        <a href="#home" aria-label="Toyslab Tech — home" className="group flex items-center">
+          <Logo heightClass="h-8 sm:h-9" priority />
         </a>
 
         {/* Desktop links */}

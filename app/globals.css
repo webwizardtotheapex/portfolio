@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------------------------------- */
+/*                              Base / resets                                 */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --background: #05060a;
+  --foreground: #e6e8f0;
+}
+
+* {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Offset anchor targets so headings clear the fixed navbar. */
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: 'cv11', 'ss01';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             Custom scrollbar                               */
+/* -------------------------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0b14;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #22d3ee, #8b5cf6);
+  border-radius: 9999px;
+  border: 2px solid #0a0b14;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #8b5cf6, #d946ef);
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.35);
+  color: #fff;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              Component layer                               */
+/* -------------------------------------------------------------------------- */
+
+@layer components {
+  /* Frosted glass surface used across cards, navbar, chips. */
+  .glass {
+    @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply border border-white/10 bg-white/[0.06] backdrop-blur-2xl;
+  }
+
+  /* Animated gradient text. */
+  .text-gradient {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: shimmer 6s linear infinite;
+  }
+
+  /* Section vertical rhythm + horizontal gutters. */
+  .section {
+    @apply relative mx-auto w-full max-w-7xl px-5 py-24 sm:px-8 md:py-32;
+  }
+
+  /* Eyebrow label above section headings. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/60 backdrop-blur;
+  }
+}
+
+@layer utilities {
+  /* Gradient border trick: layered backgrounds with a mask. */
+  .gradient-border {
+    position: relative;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, #22d3ee, #8b5cf6, #d946ef);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .gradient-border:hover::before {
+    opacity: 1;
+  }
+
+  /* Subtle radial mask to fade a grid/pattern at the edges. */
+  .mask-radial {
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  }
+}

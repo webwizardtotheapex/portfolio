@@ -64,6 +64,14 @@ body {
   background: linear-gradient(180deg, #8b5cf6, #d946ef);
 }
 
+.scrollbar-none {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
 ::selection {
   background: rgba(139, 92, 246, 0.35);
   color: #fff;

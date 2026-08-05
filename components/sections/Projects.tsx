@@ -3,14 +3,17 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Github, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Github, Image as ImageIcon, TrendingUp, Workflow } from 'lucide-react';
 import { projects, type Project } from '@/lib/data';
 import { SectionHeading } from '../SectionHeading';
 import { GlassCard } from '../GlassCard';
 import { Reveal } from '../Reveal';
 import { Badge } from '../Badge';
 import { Tilt } from '../Tilt';
+import { WorkflowDiagram } from '../WorkflowDiagram';
 import { cn } from '@/lib/utils';
+
+type PreviewMode = 'shot' | 'arch';
 
 /**
  * Workflow Gallery — the flagship section.
@@ -46,6 +49,8 @@ export function Projects() {
 function ProjectCard({ project }: { project: Project }) {
   // Long feature lists are collapsed by default and expandable.
   const [expanded, setExpanded] = useState(false);
+  // Toggle between the real screenshot and the architecture diagram.
+  const [mode, setMode] = useState<PreviewMode>('shot');
   const VISIBLE = 6;
   const shownFeatures = expanded
     ? project.features
@@ -59,8 +64,8 @@ function ProjectCard({ project }: { project: Project }) {
         gradientBorder
         className="flex h-full flex-col overflow-hidden"
       >
-        {/* ----------------------- Screenshot preview ----------------------- */}
-        <ProjectPreview project={project} />
+        {/* -------------------- Preview: shot ⇄ diagram -------------------- */}
+        <ProjectPreview project={project} mode={mode} onMode={setMode} />
 
         {/* ----------------------------- Body ----------------------------- */}
         <div className="flex flex-1 flex-col p-6 md:p-7">
@@ -146,18 +151,27 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 /**
- * Screenshot preview shown at the top of each project card.
- * - Renders real screenshot(s) from /public/projects when available.
- * - When a project has multiple images, shows a lightweight carousel with
- *   prev/next controls and dot indicators.
- * - Falls back to the gradient + emoji placeholder if no images are set or
- *   an image fails to load.
+ * Preview shown at the top of each project card. Switches between two views:
+ * - "shot"  — real screenshot(s) from /public/projects (carousel if multiple),
+ *             with a gradient + emoji fallback if none are set or one fails.
+ * - "arch"  — a branded architecture diagram generated from project.arch.
+ * The segmented toggle only appears when the project defines an architecture.
  */
-function ProjectPreview({ project }: { project: Project }) {
+function ProjectPreview({
+  project,
+  mode,
+  onMode,
+}: {
+  project: Project;
+  mode: PreviewMode;
+  onMode: (m: PreviewMode) => void;
+}) {
   const images = project.images ?? [];
   const [index, setIndex] = useState(0);
   const [failed, setFailed] = useState(false);
 
+  const hasArch = Boolean(project.arch?.length);
+  const showArch = mode === 'arch' && hasArch;
   const hasImages = images.length > 0 && !failed;
   const multiple = images.length > 1;
 
@@ -168,8 +182,10 @@ function ProjectPreview({ project }: { project: Project }) {
   return (
     <div
       className={cn(
-        'relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-gradient-to-br',
-        project.gradient
+        'relative flex aspect-[16/10] items-center justify-center overflow-hidden',
+        showArch
+          ? 'bg-base-950/80 bg-grid-pattern bg-[size:28px_28px]'
+          : cn('bg-gradient-to-br', project.gradient)
       )}
     >
       {/* Faux browser chrome */}
@@ -179,7 +195,30 @@ function ProjectPreview({ project }: { project: Project }) {
         <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
       </div>
 
-      {hasImages ? (
+      {/* View toggle: Screenshot ⇄ Diagram */}
+      {hasArch && (
+        <div className="absolute right-3 top-3 z-30 flex items-center gap-0.5 rounded-full border border-white/15 bg-black/45 p-0.5 backdrop-blur">
+          <ToggleButton
+            active={mode === 'shot'}
+            onClick={() => onMode('shot')}
+            icon={<ImageIcon className="h-3.5 w-3.5" />}
+            label="Screenshot"
+          />
+          <ToggleButton
+            active={mode === 'arch'}
+            onClick={() => onMode('arch')}
+            icon={<Workflow className="h-3.5 w-3.5" />}
+            label="Diagram"
+          />
+        </div>
+      )}
+
+      {showArch ? (
+        /* -------------------------- Architecture -------------------------- */
+        <div className="absolute inset-0 pt-12">
+          <WorkflowDiagram stages={project.arch!} />
+        </div>
+      ) : hasImages ? (
         <>
           {/* Screenshot(s) */}
           <AnimatePresence mode="wait">
@@ -271,5 +310,36 @@ function ProjectPreview({ project }: { project: Project }) {
         </>
       )}
     </div>
+  );
+}
+
+/** Small pill button used by the Screenshot ⇄ Diagram toggle. */
+function ToggleButton({
+  active,
+  onClick,
+  icon,
+  label,
+}: {
+  active: boolean;
+  onClick: () => void;
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      title={label}
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-all',
+        active
+          ? 'bg-white text-base-950 shadow-sm'
+          : 'text-white/70 hover:text-white'
+      )}
+    >
+      {icon}
+      <span className="hidden sm:inline">{label}</span>
+    </button>
   );
 }

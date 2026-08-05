@@ -97,7 +97,7 @@ export const contact = {
   // E.164-ish number used for the WhatsApp deep link (Nigeria +234).
   whatsappLink: 'https://wa.me/2348139299686',
   linkedin: 'https://www.linkedin.com/in/isa-hassan-automation/',
-  github: 'https://github.com/hassadem',
+  github: 'https://github.com/webwizardtotheapex',
   telegram: 'https://t.me/totheapex',
   twitter: 'https://x.com/SolDevHassan',
   // Primary booking call-to-action. Falls back to email if you have no
@@ -115,7 +115,7 @@ export interface SocialLink {
 export const socials: SocialLink[] = [
   { label: 'Email', href: `mailto:${contact.email}`, icon: FaEnvelope, handle: contact.email },
   { label: 'LinkedIn', href: contact.linkedin, icon: FaLinkedinIn, handle: 'in/isa-hassan-automation' },
-  { label: 'GitHub', href: contact.github, icon: FaGithub, handle: 'hassadem' },
+  { label: 'GitHub', href: contact.github, icon: FaGithub, handle: 'webwizardtotheapex' },
   { label: 'Telegram', href: contact.telegram, icon: FaTelegram, handle: '@totheapex' },
   { label: 'WhatsApp', href: contact.whatsappLink, icon: FaWhatsapp, handle: contact.whatsapp },
   { label: 'Twitter / X', href: contact.twitter, icon: FaXTwitter, handle: '@SolDevHassan' },
@@ -169,6 +169,25 @@ export const skillCategories = [
 /*                                  Projects                                  */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Architecture diagram model. Each workflow is expressed as a left-to-right
+ * pipeline of stages; a stage holds one or more nodes (parallel branches, e.g.
+ * fan-out to multiple integrations). The <WorkflowDiagram> component renders it.
+ */
+export type ArchKind = 'trigger' | 'ai' | 'process' | 'output';
+
+export interface ArchNode {
+  label: string;
+  icon: IconType | LucideIcon;
+  kind: ArchKind;
+}
+
+export interface ArchStage {
+  /** Short column heading, e.g. "Capture", "Qualify", "Notify". */
+  title: string;
+  nodes: ArchNode[];
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -190,6 +209,11 @@ export interface Project {
    * become a small carousel.
    */
   images?: string[];
+  /**
+   * Architecture diagram — the workflow expressed as a staged pipeline.
+   * Rendered by <WorkflowDiagram> as a branded alternative to the screenshot.
+   */
+  arch?: ArchStage[];
 }
 
 export const projects: Project[] = [
@@ -226,6 +250,46 @@ export const projects: Project[] = [
       '/projects/real-estate-lead-intake-ai.png',
       '/projects/real-estate-lead-intake-ai-2.png',
     ],
+    arch: [
+      {
+        title: 'Capture',
+        nodes: [
+          { label: 'Email / Form', icon: Mail, kind: 'trigger' },
+          { label: 'Webhook', icon: Webhook, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Qualify',
+        nodes: [
+          { label: 'AI Scoring', icon: RiOpenaiFill, kind: 'ai' },
+          { label: 'Spam Filter', icon: Bot, kind: 'ai' },
+          { label: 'Duplicate Check', icon: Database, kind: 'process' },
+        ],
+      },
+      {
+        title: 'Enrich',
+        nodes: [
+          { label: 'Property Match', icon: RiOpenaiFill, kind: 'ai' },
+          { label: 'AI Reply Draft', icon: RiOpenaiFill, kind: 'ai' },
+        ],
+      },
+      {
+        title: 'Store & Route',
+        nodes: [
+          { label: 'HubSpot', icon: SiHubspot, kind: 'output' },
+          { label: 'Google Sheets', icon: SiGooglesheets, kind: 'output' },
+          { label: 'Google Calendar', icon: SiGooglecalendar, kind: 'output' },
+        ],
+      },
+      {
+        title: 'Notify',
+        nodes: [
+          { label: 'Slack', icon: FaSlack, kind: 'output' },
+          { label: 'WhatsApp', icon: MessageCircle, kind: 'output' },
+          { label: 'Twilio', icon: Phone, kind: 'output' },
+        ],
+      },
+    ],
   },
   {
     id: 'outreachos-linkedin-outreach',
@@ -249,6 +313,36 @@ export const projects: Project[] = [
     gradient: 'from-accent-violet/25 via-accent-fuchsia/20 to-accent-cyan/25',
     emoji: '🔗',
     images: ['/projects/outreachos-linkedin-outreach.png'],
+    arch: [
+      {
+        title: 'Source',
+        nodes: [
+          { label: 'Prospect List', icon: Users, kind: 'trigger' },
+          { label: 'Google Sheets', icon: SiGooglesheets, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Personalize',
+        nodes: [
+          { label: 'AI Research', icon: RiOpenaiFill, kind: 'ai' },
+          { label: 'AI Message', icon: RiOpenaiFill, kind: 'ai' },
+        ],
+      },
+      {
+        title: 'Outreach',
+        nodes: [
+          { label: 'LinkedIn DM', icon: Network, kind: 'process' },
+          { label: 'Auto Follow-up', icon: Workflow, kind: 'process' },
+        ],
+      },
+      {
+        title: 'Sync',
+        nodes: [
+          { label: 'CRM Update', icon: Database, kind: 'output' },
+          { label: 'Lead Tracker', icon: SiGooglesheets, kind: 'output' },
+        ],
+      },
+    ],
   },
   {
     id: 'outreachos-follow-up-system',
@@ -269,6 +363,33 @@ export const projects: Project[] = [
     gradient: 'from-accent-emerald/25 via-accent-cyan/20 to-accent-violet/25',
     emoji: '📨',
     images: ['/projects/outreachos-follow-up-system.png'],
+    arch: [
+      {
+        title: 'Schedule',
+        nodes: [
+          { label: 'Cron Trigger', icon: Calendar, kind: 'trigger' },
+          { label: 'Lead Queue', icon: SiGooglesheets, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Decide',
+        nodes: [
+          { label: 'Response Check', icon: Workflow, kind: 'process' },
+          { label: 'AI Follow-up', icon: RiOpenaiFill, kind: 'ai' },
+        ],
+      },
+      {
+        title: 'Send',
+        nodes: [{ label: 'Email', icon: Mail, kind: 'output' }],
+      },
+      {
+        title: 'Track',
+        nodes: [
+          { label: 'Log Status', icon: SiGooglesheets, kind: 'output' },
+          { label: 'Reminder', icon: ClipboardList, kind: 'output' },
+        ],
+      },
+    ],
   },
   {
     id: 'upwork-job-hunt-telegram-alert',
@@ -289,6 +410,26 @@ export const projects: Project[] = [
     gradient: 'from-accent-cyan/25 via-accent-emerald/20 to-accent-violet/25',
     emoji: '🔔',
     images: ['/projects/upwork-job-hunt-telegram-alert.png'],
+    arch: [
+      {
+        title: 'Monitor',
+        nodes: [
+          { label: 'Upwork Feed', icon: Webhook, kind: 'trigger' },
+          { label: 'Polling', icon: Calendar, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Filter',
+        nodes: [
+          { label: 'Keyword Match', icon: Workflow, kind: 'process' },
+          { label: 'AI Relevance', icon: RiOpenaiFill, kind: 'ai' },
+        ],
+      },
+      {
+        title: 'Alert',
+        nodes: [{ label: 'Telegram', icon: SiTelegram, kind: 'output' }],
+      },
+    ],
   },
   {
     id: 'domain-outreach-engine',
@@ -309,6 +450,33 @@ export const projects: Project[] = [
     gradient: 'from-accent-fuchsia/25 via-accent-violet/20 to-accent-cyan/25',
     emoji: '🌐',
     images: ['/projects/domain-outreach-engine.png'],
+    arch: [
+      {
+        title: 'Discover',
+        nodes: [
+          { label: 'Domain Scan', icon: Network, kind: 'trigger' },
+          { label: 'Buyer Lookup', icon: Users, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Personalize',
+        nodes: [
+          { label: 'AI Research', icon: RiOpenaiFill, kind: 'ai' },
+          { label: 'AI Pitch', icon: RiOpenaiFill, kind: 'ai' },
+        ],
+      },
+      {
+        title: 'Outreach',
+        nodes: [{ label: 'Email Sequence', icon: Mail, kind: 'output' }],
+      },
+      {
+        title: 'Track',
+        nodes: [
+          { label: 'CRM', icon: Database, kind: 'output' },
+          { label: 'Pipeline Log', icon: SiGooglesheets, kind: 'output' },
+        ],
+      },
+    ],
   },
   {
     id: 'ai-job-application-tracker',
@@ -329,6 +497,33 @@ export const projects: Project[] = [
     gradient: 'from-accent-violet/25 via-accent-cyan/20 to-accent-emerald/25',
     emoji: '🗂️',
     images: ['/projects/ai-job-application-tracker.png'],
+    arch: [
+      {
+        title: 'Capture',
+        nodes: [
+          { label: 'Application Email', icon: Mail, kind: 'trigger' },
+          { label: 'Form Submit', icon: Webhook, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Classify',
+        nodes: [
+          { label: 'AI Parse', icon: RiOpenaiFill, kind: 'ai' },
+          { label: 'Stage Detect', icon: Workflow, kind: 'process' },
+        ],
+      },
+      {
+        title: 'Organize',
+        nodes: [
+          { label: 'Status Update', icon: ClipboardList, kind: 'process' },
+          { label: 'Interview Log', icon: Calendar, kind: 'process' },
+        ],
+      },
+      {
+        title: 'Store',
+        nodes: [{ label: 'Google Sheets', icon: SiGooglesheets, kind: 'output' }],
+      },
+    ],
   },
 ];
 

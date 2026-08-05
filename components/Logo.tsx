@@ -49,7 +49,7 @@ export function Logo({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-xl bg-white/95 px-3 py-1.5 shadow-glass ring-1 ring-black/5 transition-shadow duration-300 hover:shadow-glow',
+        'inline-flex items-center rounded-xl bg-snow/95 px-3 py-1.5 shadow-glass ring-1 ring-black/5 transition-shadow duration-300 hover:shadow-glow',
         className
       )}
     >

@@ -197,7 +197,7 @@ function ProjectPreview({
 
       {/* View toggle: Screenshot ⇄ Diagram */}
       {hasArch && (
-        <div className="absolute right-3 top-3 z-30 flex items-center gap-0.5 rounded-full border border-white/15 bg-black/45 p-0.5 backdrop-blur">
+        <div className="absolute right-3 top-3 z-30 flex items-center gap-0.5 rounded-full border border-snow/15 bg-black/45 p-0.5 backdrop-blur">
           <ToggleButton
             active={mode === 'shot'}
             onClick={() => onMode('shot')}
@@ -246,7 +246,7 @@ function ProjectPreview({
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent" />
 
           {/* Tagline pill */}
-          <span className="absolute bottom-3 left-4 z-20 rounded-full border border-white/20 bg-black/40 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur">
+          <span className="absolute bottom-3 left-4 z-20 rounded-full border border-snow/20 bg-black/40 px-3 py-1 text-xs font-medium text-snow/85 backdrop-blur">
             {project.tagline}
           </span>
 
@@ -257,7 +257,7 @@ function ProjectPreview({
                 type="button"
                 onClick={() => go(-1)}
                 aria-label="Previous screenshot"
-                className="absolute left-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/90 backdrop-blur transition-colors hover:bg-black/60"
+                className="absolute left-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-snow/15 bg-black/40 text-snow/90 backdrop-blur transition-colors hover:bg-black/60"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -265,7 +265,7 @@ function ProjectPreview({
                 type="button"
                 onClick={() => go(1)}
                 aria-label="Next screenshot"
-                className="absolute right-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/90 backdrop-blur transition-colors hover:bg-black/60"
+                className="absolute right-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-snow/15 bg-black/40 text-snow/90 backdrop-blur transition-colors hover:bg-black/60"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -280,7 +280,7 @@ function ProjectPreview({
                     aria-label={`Go to screenshot ${i + 1}`}
                     className={cn(
                       'h-1.5 rounded-full transition-all',
-                      i === index ? 'w-5 bg-white' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                      i === index ? 'w-5 bg-snow' : 'w-1.5 bg-snow/40 hover:bg-snow/70'
                     )}
                   />
                 ))}
@@ -300,11 +300,11 @@ function ProjectPreview({
             className="relative flex flex-col items-center gap-3 text-center"
           >
             <span className="text-6xl drop-shadow-lg">{project.emoji}</span>
-            <span className="rounded-full border border-white/20 bg-black/30 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur">
+            <span className="rounded-full border border-snow/20 bg-black/30 px-3 py-1 text-xs font-medium text-snow/80 backdrop-blur">
               {project.tagline}
             </span>
           </motion.div>
-          <span className="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-white/40">
+          <span className="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-snow/40">
             Workflow preview
           </span>
         </>
@@ -313,7 +313,6 @@ function ProjectPreview({
   );
 }
 
-/** Small pill button used by the Screenshot ⇄ Diagram toggle. */
 function ToggleButton({
   active,
   onClick,
@@ -334,8 +333,8 @@ function ToggleButton({
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-all',
         active
-          ? 'bg-white text-base-950 shadow-sm'
-          : 'text-white/70 hover:text-white'
+          ? 'bg-snow text-ink shadow-sm'
+          : 'text-snow/70 hover:text-snow'
       )}
     >
       {icon}

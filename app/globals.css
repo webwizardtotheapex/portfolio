@@ -3,33 +3,69 @@
 @tailwind utilities;
 
 /* -------------------------------------------------------------------------- */
+/*                          Theme CSS variables                               */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Light and dark theme palettes.
+ * The logo-matched blue-forward blend: primary #2b8fe6, sky #5eb4f5,
+ * success green #2f9e44. Tokens are RGB triplets (no `rgb()` wrapper) so
+ * Tailwind's `<alpha-value>` syntax works in the config.
+ */
+
+:root {
+  /* Light mode (default for .light or no class) */
+  --fg: 15 23 42; /* slate-900 */
+  --fg-muted: 71 85 105; /* slate-600 */
+  --fg-subtle: 148 163 184; /* slate-400 */
+  --bg: 248 250 252; /* slate-50 */
+  --surface: 255 255 255; /* white */
+  --surface-hover: 241 245 249; /* slate-100 */
+  --border: 226 232 240; /* slate-200 */
+
+  --accent-primary: 43 143 230; /* logo blue, brightened */
+  --accent-sky: 94 180 245; /* sky accent */
+  --accent-success: 47 158 68; /* logo green, brightened */
+}
+
+.dark {
+  /* Dark mode — premium near-black theme */
+  --fg: 241 245 249; /* slate-100 */
+  --fg-muted: 203 213 225; /* slate-300 */
+  --fg-subtle: 148 163 184; /* slate-400 */
+  --bg: 5 6 10; /* base-950 */
+  --surface: 10 11 20; /* base-900 */
+  --surface-hover: 15 17 29; /* base-800 */
+  --border: 51 65 85; /* slate-700 */
+
+  --accent-primary: 43 143 230;
+  --accent-sky: 94 180 245;
+  --accent-success: 47 158 68;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                              Base / resets                                 */
 /* -------------------------------------------------------------------------- */
 
-:root {
-  --background: #05060a;
-  --foreground: #e6e8f0;
-}
-
 * {
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: rgb(var(--border) / 0.5);
 }
 
 html {
   scroll-behavior: smooth;
-  /* Offset anchor targets so headings clear the fixed navbar. */
   scroll-padding-top: 5.5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
   font-feature-settings: 'cv11', 'ss01';
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Respect users who prefer reduced motion. */
@@ -53,15 +89,23 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0b14;
+  background: rgb(var(--surface));
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #22d3ee, #8b5cf6);
+  background: linear-gradient(
+    180deg,
+    rgb(var(--accent-primary)),
+    rgb(var(--accent-sky))
+  );
   border-radius: 9999px;
-  border: 2px solid #0a0b14;
+  border: 2px solid rgb(var(--surface));
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #8b5cf6, #d946ef);
+  background: linear-gradient(
+    180deg,
+    rgb(var(--accent-sky)),
+    rgb(var(--accent-success))
+  );
 }
 
 .scrollbar-none {
@@ -73,8 +117,8 @@ body {
 }
 
 ::selection {
-  background: rgba(139, 92, 246, 0.35);
-  color: #fff;
+  background: rgb(var(--accent-sky) / 0.35);
+  color: rgb(var(--fg));
 }
 
 /* -------------------------------------------------------------------------- */
@@ -84,11 +128,11 @@ body {
 @layer components {
   /* Frosted glass surface used across cards, navbar, chips. */
   .glass {
-    @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+    @apply border border-border/40 bg-surface/30 backdrop-blur-xl;
   }
 
   .glass-strong {
-    @apply border border-white/10 bg-white/[0.06] backdrop-blur-2xl;
+    @apply border border-border/50 bg-surface/60 backdrop-blur-2xl;
   }
 
   /* Animated gradient text. */
@@ -105,7 +149,7 @@ body {
 
   /* Eyebrow label above section headings. */
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/60 backdrop-blur;
+    @apply inline-flex items-center gap-2 rounded-full border border-border/40 bg-surface/30 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-fg-muted backdrop-blur;
   }
 }
 
@@ -120,7 +164,12 @@ body {
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(120deg, #22d3ee, #8b5cf6, #d946ef);
+    background: linear-gradient(
+      120deg,
+      rgb(var(--accent-primary)),
+      rgb(var(--accent-sky)),
+      rgb(var(--accent-success))
+    );
     -webkit-mask: linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -135,7 +184,11 @@ body {
 
   /* Subtle radial mask to fade a grid/pattern at the edges. */
   .mask-radial {
-    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+    -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      black 40%,
+      transparent 75%
+    );
     mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
   }
 }

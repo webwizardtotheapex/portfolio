@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { navItems, contact } from '@/lib/data';
 import { GlowLink } from '../GlowButton';
 import { Logo } from '../Logo';
+import { ThemeToggle } from '../ThemeToggle';
 import { cn } from '@/lib/utils';
 
 /**
@@ -95,22 +96,26 @@ export function Navbar() {
           })}
         </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden lg:block">
+        {/* Desktop CTA + theme toggle */}
+        <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle />
           <GlowLink href={contact.bookingUrl} target="_blank" rel="noopener noreferrer" size="sm">
             Book a Call
           </GlowLink>
         </div>
 
-        {/* Mobile menu toggle */}
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="glass flex h-10 w-10 items-center justify-center rounded-xl text-white lg:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile: theme toggle + menu button */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="glass flex h-10 w-10 items-center justify-center rounded-xl text-white"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile dropdown menu */}

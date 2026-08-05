@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Sora, JetBrains_Mono } from 'next/font/google';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import './globals.css';
 
 /* -------------------------------------------------------------------------- */
@@ -142,20 +143,44 @@ const personSchema = {
   ],
 };
 
+// Runs before hydration to set the theme class, avoiding a flash of the wrong
+// theme. Dark is the default; a stored choice ('light'/'dark') overrides it.
+const themeInitScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  } catch (e) {
+    document.documentElement.classList.add('dark');
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable} ${jetbrains.variable}`}>
+    <html
+      lang="en"
+      className={`dark ${inter.variable} ${sora.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="font-sans antialiased">
         {/* SEO structured data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

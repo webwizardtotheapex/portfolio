@@ -25,14 +25,15 @@ const sizeStyles: Record<Size, string> = {
 };
 
 const variantStyles: Record<Variant, string> = {
-  // Filled gradient button with animated glow halo.
+  // Filled gradient button with animated glow halo. Text stays white in both
+  // themes since it sits on the coloured brand gradient.
   primary:
-    'text-white bg-brand-gradient shadow-glow hover:shadow-glow-strong',
-  // Glass outline button.
+    'text-snow bg-brand-gradient shadow-glow hover:shadow-glow-strong',
+  // Glass outline button — adapts to the theme foreground.
   secondary:
-    'text-white/90 glass-strong hover:bg-white/10 hover:text-white',
+    'text-fg/90 glass-strong hover:bg-surface-hover hover:text-fg',
   // Minimal text button.
-  ghost: 'text-white/70 hover:text-white hover:bg-white/5',
+  ghost: 'text-fg-muted hover:text-fg hover:bg-surface/60',
 };
 
 /** Shared inner content: label + optional icons + glow layer. */

@@ -17,6 +17,8 @@ import {
   SiTypescript,
   SiNodedotjs,
   SiJson,
+  SiSupabase,
+  SiGmail,
 } from 'react-icons/si';
 // A few brand icons were removed from simple-icons; source them elsewhere.
 import { RiOpenaiFill } from 'react-icons/ri';
@@ -39,6 +41,11 @@ import {
   Headphones,
   Calendar,
   ClipboardList,
+  Star,
+  LayoutDashboard,
+  ShieldCheck,
+  Bell,
+  Car,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -217,6 +224,87 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    id: 'reputation-feedback-intelligence-engine',
+    title: 'Reputation & Feedback Intelligence Engine',
+    tagline: 'Turn every service visit into reputation growth',
+    description:
+      'A full-stack reputation platform that requests feedback after every service visit, classifies sentiment and severity with AI, then routes each case — public review, private recovery or manager escalation — from a Next.js + Supabase command center wired to n8n.',
+    features: [
+      'AI Sentiment Analysis',
+      'Severity Scoring',
+      'Smart Feedback Routing',
+      'Positive → Public Review',
+      'Negative → Private Recovery',
+      'Manager Escalation Alerts',
+      'Human-in-the-Loop Review',
+      'AI Response Generation',
+      'Repeat-Complaint Detection',
+      'Feedback History Tracking',
+      'Multi-Location Support',
+      'Live Analytics Dashboard',
+      'Visits & Customer CRM',
+      'Supabase Data Platform',
+    ],
+    tech: ['Next.js', 'TypeScript', 'Supabase', 'n8n', 'OpenAI', 'Gmail', 'Tailwind CSS'],
+    impact: 'Catches unhappy customers before they post — protecting public ratings and recovering revenue.',
+    github: contact.github,
+    demo: contact.bookingUrl,
+    gradient: 'from-accent-emerald/25 via-accent-cyan/20 to-accent-fuchsia/25',
+    emoji: '⭐',
+    images: [
+      '/projects/reputation-feedback-engine.png',
+      '/projects/reputation-feedback-engine-2.png',
+      '/projects/reputation-feedback-engine-3.png',
+    ],
+    arch: [
+      {
+        title: 'Collect',
+        nodes: [
+          { label: 'Service Visit', icon: Car, kind: 'trigger' },
+          { label: 'Feedback Email', icon: SiGmail, kind: 'trigger' },
+        ],
+      },
+      {
+        title: 'Understand',
+        nodes: [
+          { label: 'Extract Reply', icon: Braces, kind: 'process' },
+          { label: 'Match Customer', icon: Users, kind: 'process' },
+        ],
+      },
+      {
+        title: 'Analyze',
+        nodes: [
+          { label: 'AI Sentiment', icon: RiOpenaiFill, kind: 'ai' },
+          { label: 'Severity Score', icon: BrainCircuit, kind: 'ai' },
+          { label: 'Feedback History', icon: Database, kind: 'process' },
+        ],
+      },
+      {
+        title: 'Route',
+        nodes: [
+          { label: 'Sentiment Router', icon: Network, kind: 'process' },
+          { label: 'AI Response Draft', icon: RiOpenaiFill, kind: 'ai' },
+        ],
+      },
+      {
+        title: 'Act',
+        nodes: [
+          { label: 'Public Review', icon: Star, kind: 'output' },
+          { label: 'Private Recovery', icon: ShieldCheck, kind: 'output' },
+          { label: 'Manager Alert', icon: Bell, kind: 'output' },
+          { label: 'Human Review', icon: ClipboardList, kind: 'output' },
+        ],
+      },
+      {
+        title: 'Track',
+        nodes: [
+          { label: 'Supabase', icon: SiSupabase, kind: 'output' },
+          { label: 'Dashboard', icon: LayoutDashboard, kind: 'output' },
+        ],
+      },
+    ],
+  },
   {
     id: 'real-estate-lead-intake-ai',
     title: 'Real Estate Lead Intake AI',

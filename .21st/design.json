@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "project": {
+    "name": "isa-hassan-portfolio",
+    "productType": "AI automation engineering portfolio",
+    "stack": [
+      "nextjs",
+      "react",
+      "tailwind-v3"
+    ]
+  },
+  "sources": {
+    "tokens": [
+      "app/globals.css",
+      "tailwind.config.ts"
+    ],
+    "components": [
+      "components/GlassCard.tsx",
+      "components/Badge.tsx",
+      "components/Reveal.tsx",
+      "components/sections/Projects.tsx",
+      "components/WorkflowDiagram.tsx",
+      "components/WorkflowScreenshot.tsx",
+      "components/ScreenshotLightbox.tsx"
+    ],
+    "assets": [
+      "public/projects/Multichannel AI Agent.png",
+      "public/projects/Mu;ti-channel AI Agent CRM.png",
+      "public/projects/Mu;ti-channel AI Agent CRM customer.png"
+    ],
+    "instructions": []
+  },
+  "design": {
+    "colorMode": "light-and-dark",
+    "colors": {
+      "--fg-muted": {
+        "value": "203 213 225",
+        "source": "app/globals.css"
+      },
+      "--border": {
+        "value": "51 65 85",
+        "source": "app/globals.css"
+      },
+      "--accent-primary": {
+        "value": "43 143 230",
+        "source": "app/globals.css"
+      },
+      "--accent-sky": {
+        "value": "94 180 245",
+        "source": "app/globals.css"
+      },
+      "--accent-success": {
+        "value": "47 158 68",
+        "source": "app/globals.css"
+      },
+      "--fg": {
+        "value": "241 245 249",
+        "source": "app/globals.css (.dark)"
+      },
+      "--fg-subtle": {
+        "value": "148 163 184",
+        "source": "app/globals.css (.dark)"
+      },
+      "--bg": {
+        "value": "5 6 10",
+        "source": "app/globals.css (.dark)"
+      },
+      "--surface": {
+        "value": "10 11 20",
+        "source": "app/globals.css (.dark)"
+      },
+      "--surface-hover": {
+        "value": "15 17 29",
+        "source": "app/globals.css (.dark)"
+      }
+    },
+    "typography": {
+      "--font-sans": {
+        "value": "Inter; system-ui fallback",
+        "source": "app/layout.tsx; tailwind.config.ts"
+      },
+      "--font-display": {
+        "value": "Sora; system-ui fallback",
+        "source": "app/layout.tsx; tailwind.config.ts"
+      },
+      "--font-mono": {
+        "value": "JetBrains Mono; monospace fallback",
+        "source": "app/layout.tsx; tailwind.config.ts"
+      }
+    },
+    "spacing": {
+      "section-gutters": {
+        "value": "20px; 32px at sm",
+        "source": "app/globals.css (.section)"
+      },
+      "gallery-gap": {
+        "value": "32px",
+        "source": "components/sections/Projects.tsx (gap-8)"
+      },
+      "card-padding": {
+        "value": "24px; 28px at md",
+        "source": "components/sections/Projects.tsx (p-6 md:p-7)"
+      },
+      "touch-target": {
+        "value": "44px minimum",
+        "source": "app/globals.css (.workflow-control)"
+      }
+    },
+    "radius": {
+      "card": {
+        "value": "16px (rounded-2xl)",
+        "source": "components/GlassCard.tsx"
+      },
+      "controls": {
+        "value": "12px (rounded-xl)",
+        "source": "app/globals.css (.workflow-control)"
+      }
+    },
+    "shadows": {
+      "glow": {
+        "value": "0 0 40px -10px rgb(var(--accent-sky) / 0.5)",
+        "source": "tailwind.config.ts"
+      },
+      "glow-strong": {
+        "value": "0 0 60px -5px rgb(var(--accent-sky) / 0.65)",
+        "source": "tailwind.config.ts"
+      },
+      "gradient-border": {
+        "value": "Primary → sky → success; opacity 0.5 → 1 on hover",
+        "source": "app/globals.css (.gradient-border)"
+      }
+    },
+    "motion": {
+      "interactions": {
+        "value": "180–240ms opacity and height transitions",
+        "source": "components/sections/Projects.tsx; components/WorkflowDiagram.tsx"
+      },
+      "data-flow": {
+        "value": "2.8s subtle pulse; user pause; disabled for reduced motion",
+        "source": "app/globals.css; components/WorkflowDiagram.tsx"
+      }
+    },
+    "density": "comfortable"
+  },
+  "components": {
+    "installed": [],
+    "preferredPrimitives": [
+      "GlassCard",
+      "Badge",
+      "Reveal",
+      "native dialog"
+    ],
+    "patterns": [
+      "Project and ArchStage data drive every gallery card.",
+      "Architecture branches merge and split within a vertical, contained scroll region."
+    ]
+  },
+  "constraints": {
+    "must": [
+      "Preserve the existing dark-mode RGB tokens, brand gradient border, glow shadows, Inter/Sora/JetBrains Mono typography, and spacing.",
+      "Use the existing Project and ArchStage TypeScript schemas; no workflow data migration.",
+      "Keep diagrams within the card width at 375px, 768px, and 1440px, with aligned desktop grid rows.",
+      "Use 44px controls, visible keyboard focus, semantic tabs, native modal focus containment, and reduced-motion support.",
+      "Retain six visible features with an accessible expansion for the remaining eight."
+    ],
+    "avoid": [
+      "Human illustrations and avatars.",
+      "New hardcoded replacement colors or unrelated UI dependencies.",
+      "Simulated live execution status or invented production metrics."
+    ]
+  },
+  "decisions": [
+    {
+      "id": "workflow-gallery-architecture",
+      "decision": "Preserve the selected dark portfolio identity and use system nodes, existing UI screenshots, and architectural role badges.",
+      "source": "User request, 2026-11-17"
+    },
+    {
+      "id": "workflow-gallery-responsive-flow",
+      "decision": "Use vertical stages with merging and splitting connectors and internal vertical scrolling, rather than a forced wide canvas.",
+      "source": "375px, 768px, and 1440px gallery requirements"
+    },
+    {
+      "id": "workflow-gallery-previews",
+      "decision": "Use semantic Screenshot/Diagram tabs, on-demand screenshots in a native top-layer dialog with explicit Tab cycling and a full-resolution image link for detailed inspection, and measured feature-height transitions. Keep interactive cards stationary and use the existing border glow for hover feedback.",
+      "source": "User request; existing React and Next.js components"
+    }
+  ],
+  "evidence": [
+    {
+      "fact": "design.colorMode:light-and-dark",
+      "source": "app/globals.css"
+    },
+    {
+      "fact": "design.tokens",
+      "source": "app/globals.css"
+    },
+    {
+      "fact": "project.stack:nextjs",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:react",
+      "source": "package.json"
+    },
+    {
+      "fact": "project.stack:tailwind-v3",
+      "source": "package.json"
+    },
+    {
+      "fact": "Existing portfolio font, spacing, radius, glow, and gradient-border tokens inspected.",
+      "source": "tailwind.config.ts; app/globals.css; app/layout.tsx"
+    },
+    {
+      "fact": "Reuse existing gallery primitives without adding production dependencies.",
+      "source": "components/GlassCard.tsx; components/Badge.tsx; components/Reveal.tsx"
+    }
+  ],
+  "generatedAt": "2026-11-17T21:02:39.137Z"
+}

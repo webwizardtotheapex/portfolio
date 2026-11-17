@@ -17,17 +17,13 @@ import {
   SiTypescript,
   SiNodedotjs,
   SiJson,
-  SiSupabase,
-  SiGmail,
 } from 'react-icons/si';
 // A few brand icons were removed from simple-icons; source them elsewhere.
 import { RiOpenaiFill } from 'react-icons/ri';
 import {
   Bot,
   Workflow,
-  Braces,
   Webhook,
-  Sparkles,
   Users,
   Database,
   Mail,
@@ -40,12 +36,6 @@ import {
   Network,
   Headphones,
   Calendar,
-  ClipboardList,
-  Star,
-  LayoutDashboard,
-  ShieldCheck,
-  Bell,
-  Car,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -57,6 +47,7 @@ import {
   FaEnvelope,
   FaSlack,
 } from 'react-icons/fa6';
+import { contact } from './contact';
 
 /* -------------------------------------------------------------------------- */
 /*                                Personal info                               */
@@ -89,7 +80,7 @@ export interface Stat {
 
 export const stats: Stat[] = [
   { label: 'Hours Saved Monthly', value: '500', suffix: '+' },
-  { label: 'Workflows Shipped', value: '40', suffix: '+' },
+  { label: 'Workflows Shipped', value: '41', suffix: '+' },
   { label: 'Manual Work Reduced', value: '90', suffix: '%' },
   { label: 'Integrations Mastered', value: '20', suffix: '+' },
 ];
@@ -98,19 +89,10 @@ export const stats: Stat[] = [
 /*                                  Contact                                   */
 /* -------------------------------------------------------------------------- */
 
-export const contact = {
-  email: 'webwizardtotheapex@gmail.com',
-  whatsapp: '08139299686',
-  // E.164-ish number used for the WhatsApp deep link (Nigeria +234).
-  whatsappLink: 'https://wa.me/2348139299686',
-  linkedin: 'https://www.linkedin.com/in/isa-hassan-automation/',
-  github: 'https://github.com/webwizardtotheapex',
-  telegram: 'https://t.me/totheapex',
-  twitter: 'https://x.com/SolDevHassan',
-  // Primary booking call-to-action. Falls back to email if you have no
-  // scheduling link yet — swap this for Calendly/Cal.com when ready.
-  bookingUrl: 'https://wa.me/2348139299686?text=Hi%20Isa%2C%20I%27d%20like%20to%20book%20a%20call%20about%20AI%20automation.',
-} as const;
+// `contact` lives in lib/contact.ts (a leaf module) so lib/projects.ts can use
+// it without a circular import. Re-exported here so components keep importing
+// `{ contact }` from '@/lib/data' unchanged.
+export { contact };
 
 export interface SocialLink {
   label: string;
@@ -177,443 +159,14 @@ export const skillCategories = [
 /* -------------------------------------------------------------------------- */
 
 /**
- * Architecture diagram model. Each workflow is expressed as a left-to-right
- * pipeline of stages; a stage holds one or more nodes (parallel branches, e.g.
- * fan-out to multiple integrations). The <WorkflowDiagram> component renders it.
+ * Projects & architecture-diagram types. The project data lives in
+ * content/projects.json (authored via the local CMS — `npm run cms`) and is
+ * loaded, validated and icon-mapped by lib/projects.ts. Re-exported here so
+ * components keep importing `{ projects, type Project }` from '@/lib/data'.
  */
-export type ArchKind = 'trigger' | 'ai' | 'process' | 'output';
+export type { Project, ArchStage, ArchNode, ArchKind } from './projects';
 
-export interface ArchNode {
-  label: string;
-  icon: IconType | LucideIcon;
-  kind: ArchKind;
-}
-
-export interface ArchStage {
-  /** Short column heading, e.g. "Capture", "Qualify", "Notify". */
-  title: string;
-  nodes: ArchNode[];
-}
-
-export interface Project {
-  id: string;
-  title: string;
-  tagline: string;
-  description: string;
-  features: string[];
-  tech: string[];
-  impact: string;
-  /** Optional links — leave undefined to hide the button. */
-  github?: string;
-  demo?: string;
-  /** Accent gradient used for the card + screenshot placeholder. */
-  gradient: string;
-  /** Emoji rendered inside the screenshot placeholder (fallback). */
-  emoji: string;
-  /**
-   * One or more screenshots in /public/projects. When present, the card
-   * renders the image(s) instead of the emoji placeholder. Multiple images
-   * become a small carousel.
-   */
-  images?: string[];
-  /**
-   * Architecture diagram — the workflow expressed as a staged pipeline.
-   * Rendered by <WorkflowDiagram> as a branded alternative to the screenshot.
-   */
-  arch?: ArchStage[];
-}
-
-export const projects: Project[] = [
-  {
-    id: 'reputation-feedback-intelligence-engine',
-    title: 'Reputation & Feedback Intelligence Engine',
-    tagline: 'Turn every service visit into reputation growth',
-    description:
-      'A full-stack reputation platform that requests feedback after every service visit, classifies sentiment and severity with AI, then routes each case — public review, private recovery or manager escalation — from a Next.js + Supabase command center wired to n8n.',
-    features: [
-      'AI Sentiment Analysis',
-      'Severity Scoring',
-      'Smart Feedback Routing',
-      'Positive → Public Review',
-      'Negative → Private Recovery',
-      'Manager Escalation Alerts',
-      'Human-in-the-Loop Review',
-      'AI Response Generation',
-      'Repeat-Complaint Detection',
-      'Feedback History Tracking',
-      'Multi-Location Support',
-      'Live Analytics Dashboard',
-      'Visits & Customer CRM',
-      'Supabase Data Platform',
-    ],
-    tech: ['Next.js', 'TypeScript', 'Supabase', 'n8n', 'OpenAI', 'Gmail', 'Tailwind CSS'],
-    impact: 'Catches unhappy customers before they post — protecting public ratings and recovering revenue.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-emerald/25 via-accent-cyan/20 to-accent-fuchsia/25',
-    emoji: '⭐',
-    images: [
-      '/projects/reputation-feedback-engine.png',
-      '/projects/reputation-feedback-engine-2.png',
-      '/projects/reputation-feedback-engine-3.png',
-    ],
-    arch: [
-      {
-        title: 'Collect',
-        nodes: [
-          { label: 'Service Visit', icon: Car, kind: 'trigger' },
-          { label: 'Feedback Email', icon: SiGmail, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Understand',
-        nodes: [
-          { label: 'Extract Reply', icon: Braces, kind: 'process' },
-          { label: 'Match Customer', icon: Users, kind: 'process' },
-        ],
-      },
-      {
-        title: 'Analyze',
-        nodes: [
-          { label: 'AI Sentiment', icon: RiOpenaiFill, kind: 'ai' },
-          { label: 'Severity Score', icon: BrainCircuit, kind: 'ai' },
-          { label: 'Feedback History', icon: Database, kind: 'process' },
-        ],
-      },
-      {
-        title: 'Route',
-        nodes: [
-          { label: 'Sentiment Router', icon: Network, kind: 'process' },
-          { label: 'AI Response Draft', icon: RiOpenaiFill, kind: 'ai' },
-        ],
-      },
-      {
-        title: 'Act',
-        nodes: [
-          { label: 'Public Review', icon: Star, kind: 'output' },
-          { label: 'Private Recovery', icon: ShieldCheck, kind: 'output' },
-          { label: 'Manager Alert', icon: Bell, kind: 'output' },
-          { label: 'Human Review', icon: ClipboardList, kind: 'output' },
-        ],
-      },
-      {
-        title: 'Track',
-        nodes: [
-          { label: 'Supabase', icon: SiSupabase, kind: 'output' },
-          { label: 'Dashboard', icon: LayoutDashboard, kind: 'output' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'real-estate-lead-intake-ai',
-    title: 'Real Estate Lead Intake AI',
-    tagline: 'Enterprise lead management, fully automated',
-    description:
-      'An enterprise AI-powered Real Estate Lead Management System built in n8n that qualifies, scores and routes every inbound lead automatically.',
-    features: [
-      'AI Lead Qualification',
-      'Lead Scoring',
-      'Hot / Warm / Cold Classification',
-      'Spam Detection',
-      'AI Email Replies',
-      'HubSpot CRM Integration',
-      'Google Sheets Logging',
-      'Google Calendar Booking',
-      'Slack Notifications',
-      'WhatsApp Notifications',
-      'Twilio Integration',
-      'Property Recommendation AI',
-      'Duplicate Lead Detection',
-      'Automatic Task Creation',
-      'Automatic Deal Creation',
-    ],
-    tech: ['n8n', 'OpenAI', 'HubSpot', 'Google Sheets', 'Google Calendar', 'Slack', 'Twilio', 'WhatsApp'],
-    impact: 'Reduces manual lead qualification by over 90%.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-cyan/25 via-accent-violet/20 to-accent-fuchsia/25',
-    emoji: '🏡',
-    images: [
-      '/projects/real-estate-lead-intake-ai.png',
-      '/projects/real-estate-lead-intake-ai-2.png',
-    ],
-    arch: [
-      {
-        title: 'Capture',
-        nodes: [
-          { label: 'Email / Form', icon: Mail, kind: 'trigger' },
-          { label: 'Webhook', icon: Webhook, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Qualify',
-        nodes: [
-          { label: 'AI Scoring', icon: RiOpenaiFill, kind: 'ai' },
-          { label: 'Spam Filter', icon: Bot, kind: 'ai' },
-          { label: 'Duplicate Check', icon: Database, kind: 'process' },
-        ],
-      },
-      {
-        title: 'Enrich',
-        nodes: [
-          { label: 'Property Match', icon: RiOpenaiFill, kind: 'ai' },
-          { label: 'AI Reply Draft', icon: RiOpenaiFill, kind: 'ai' },
-        ],
-      },
-      {
-        title: 'Store & Route',
-        nodes: [
-          { label: 'HubSpot', icon: SiHubspot, kind: 'output' },
-          { label: 'Google Sheets', icon: SiGooglesheets, kind: 'output' },
-          { label: 'Google Calendar', icon: SiGooglecalendar, kind: 'output' },
-        ],
-      },
-      {
-        title: 'Notify',
-        nodes: [
-          { label: 'Slack', icon: FaSlack, kind: 'output' },
-          { label: 'WhatsApp', icon: MessageCircle, kind: 'output' },
-          { label: 'Twilio', icon: Phone, kind: 'output' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'outreachos-linkedin-outreach',
-    title: 'OutreachOS — LinkedIn Outreach',
-    tagline: 'Personalized outreach at scale',
-    description:
-      'A complete LinkedIn outreach automation platform that manages prospects, personalizes messaging with AI and keeps your CRM perfectly in sync.',
-    features: [
-      'Prospect Management',
-      'AI Personalization',
-      'Automated Follow-ups',
-      'Lead Tracking',
-      'CRM Sync',
-      'OpenAI Integration',
-      'Google Sheets Database',
-    ],
-    tech: ['n8n', 'OpenAI', 'Google Sheets', 'CRM'],
-    impact: 'Turns cold prospecting into a hands-off, personalized pipeline.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-violet/25 via-accent-fuchsia/20 to-accent-cyan/25',
-    emoji: '🔗',
-    images: ['/projects/outreachos-linkedin-outreach.png'],
-    arch: [
-      {
-        title: 'Source',
-        nodes: [
-          { label: 'Prospect List', icon: Users, kind: 'trigger' },
-          { label: 'Google Sheets', icon: SiGooglesheets, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Personalize',
-        nodes: [
-          { label: 'AI Research', icon: RiOpenaiFill, kind: 'ai' },
-          { label: 'AI Message', icon: RiOpenaiFill, kind: 'ai' },
-        ],
-      },
-      {
-        title: 'Outreach',
-        nodes: [
-          { label: 'LinkedIn DM', icon: Network, kind: 'process' },
-          { label: 'Auto Follow-up', icon: Workflow, kind: 'process' },
-        ],
-      },
-      {
-        title: 'Sync',
-        nodes: [
-          { label: 'CRM Update', icon: Database, kind: 'output' },
-          { label: 'Lead Tracker', icon: SiGooglesheets, kind: 'output' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'outreachos-follow-up-system',
-    title: 'OutreachOS — Follow Up System',
-    tagline: 'Never miss a follow-up again',
-    description:
-      'Automatically follows up with prospects on a predefined schedule, tracks responses and keeps every lead warm without manual effort.',
-    features: [
-      'Email Follow-up',
-      'Reminder System',
-      'Lead Tracking',
-      'Response Monitoring',
-    ],
-    tech: ['n8n', 'OpenAI', 'Email', 'Google Sheets'],
-    impact: 'Recovers revenue lost to forgotten follow-ups.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-emerald/25 via-accent-cyan/20 to-accent-violet/25',
-    emoji: '📨',
-    images: ['/projects/outreachos-follow-up-system.png'],
-    arch: [
-      {
-        title: 'Schedule',
-        nodes: [
-          { label: 'Cron Trigger', icon: Calendar, kind: 'trigger' },
-          { label: 'Lead Queue', icon: SiGooglesheets, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Decide',
-        nodes: [
-          { label: 'Response Check', icon: Workflow, kind: 'process' },
-          { label: 'AI Follow-up', icon: RiOpenaiFill, kind: 'ai' },
-        ],
-      },
-      {
-        title: 'Send',
-        nodes: [{ label: 'Email', icon: Mail, kind: 'output' }],
-      },
-      {
-        title: 'Track',
-        nodes: [
-          { label: 'Log Status', icon: SiGooglesheets, kind: 'output' },
-          { label: 'Reminder', icon: ClipboardList, kind: 'output' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'upwork-job-hunt-telegram-alert',
-    title: 'Upwork Job Hunt with Telegram Alert',
-    tagline: 'Be first to every matching job',
-    description:
-      'Continuously monitors Upwork jobs and instantly pushes matching opportunities to Telegram, filtered by keywords and refined with AI.',
-    features: [
-      'Job Monitoring',
-      'Keyword Filtering',
-      'Telegram Alerts',
-      'AI Filtering',
-    ],
-    tech: ['n8n', 'OpenAI', 'Telegram', 'Webhooks'],
-    impact: 'Delivers qualified job leads in real time — zero manual searching.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-cyan/25 via-accent-emerald/20 to-accent-violet/25',
-    emoji: '🔔',
-    images: ['/projects/upwork-job-hunt-telegram-alert.png'],
-    arch: [
-      {
-        title: 'Monitor',
-        nodes: [
-          { label: 'Upwork Feed', icon: Webhook, kind: 'trigger' },
-          { label: 'Polling', icon: Calendar, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Filter',
-        nodes: [
-          { label: 'Keyword Match', icon: Workflow, kind: 'process' },
-          { label: 'AI Relevance', icon: RiOpenaiFill, kind: 'ai' },
-        ],
-      },
-      {
-        title: 'Alert',
-        nodes: [{ label: 'Telegram', icon: SiTelegram, kind: 'output' }],
-      },
-    ],
-  },
-  {
-    id: 'domain-outreach-engine',
-    title: 'Domain Outreach Engine',
-    tagline: 'AI-powered outbound for premium domains',
-    description:
-      'An AI-powered outbound system that discovers premium domain buyers and automates hyper-personalized outreach end to end.',
-    features: [
-      'Lead Discovery',
-      'Email Automation',
-      'CRM Tracking',
-      'AI Personalization',
-    ],
-    tech: ['n8n', 'OpenAI', 'Email', 'CRM'],
-    impact: 'Automates prospecting and outreach for high-value domain sales.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-fuchsia/25 via-accent-violet/20 to-accent-cyan/25',
-    emoji: '🌐',
-    images: ['/projects/domain-outreach-engine.png'],
-    arch: [
-      {
-        title: 'Discover',
-        nodes: [
-          { label: 'Domain Scan', icon: Network, kind: 'trigger' },
-          { label: 'Buyer Lookup', icon: Users, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Personalize',
-        nodes: [
-          { label: 'AI Research', icon: RiOpenaiFill, kind: 'ai' },
-          { label: 'AI Pitch', icon: RiOpenaiFill, kind: 'ai' },
-        ],
-      },
-      {
-        title: 'Outreach',
-        nodes: [{ label: 'Email Sequence', icon: Mail, kind: 'output' }],
-      },
-      {
-        title: 'Track',
-        nodes: [
-          { label: 'CRM', icon: Database, kind: 'output' },
-          { label: 'Pipeline Log', icon: SiGooglesheets, kind: 'output' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'ai-job-application-tracker',
-    title: 'AI Job Application Tracker',
-    tagline: 'Your job search on autopilot',
-    description:
-      'Tracks job applications automatically, organizes statuses and keeps interview stages up to date without any manual bookkeeping.',
-    features: [
-      'Job Tracker',
-      'Interview Tracker',
-      'Application Status',
-      'Automatic Updates',
-    ],
-    tech: ['n8n', 'OpenAI', 'Google Sheets'],
-    impact: 'Keeps every application organized and up to date automatically.',
-    github: contact.github,
-    demo: contact.bookingUrl,
-    gradient: 'from-accent-violet/25 via-accent-cyan/20 to-accent-emerald/25',
-    emoji: '🗂️',
-    images: ['/projects/ai-job-application-tracker.png'],
-    arch: [
-      {
-        title: 'Capture',
-        nodes: [
-          { label: 'Application Email', icon: Mail, kind: 'trigger' },
-          { label: 'Form Submit', icon: Webhook, kind: 'trigger' },
-        ],
-      },
-      {
-        title: 'Classify',
-        nodes: [
-          { label: 'AI Parse', icon: RiOpenaiFill, kind: 'ai' },
-          { label: 'Stage Detect', icon: Workflow, kind: 'process' },
-        ],
-      },
-      {
-        title: 'Organize',
-        nodes: [
-          { label: 'Status Update', icon: ClipboardList, kind: 'process' },
-          { label: 'Interview Log', icon: Calendar, kind: 'process' },
-        ],
-      },
-      {
-        title: 'Store',
-        nodes: [{ label: 'Google Sheets', icon: SiGooglesheets, kind: 'output' }],
-      },
-    ],
-  },
-];
+export { projects } from './projects';
 
 /* -------------------------------------------------------------------------- */
 /*                                  Services                                  */

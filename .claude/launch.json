@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 3000
+    },
+    {
+      "name": "projects-cms",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/cms/server.mjs"],
+      "port": 4321
     }
   ]
 }

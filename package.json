@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build",
-    "serve": "npx serve out"
+    "serve": "npx serve out",
+    "cms": "node scripts/cms/server.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

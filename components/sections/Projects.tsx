@@ -1,26 +1,38 @@
 'use client';
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, Check, ChevronLeft, ChevronRight, Github, Image as ImageIcon, TrendingUp, Workflow } from 'lucide-react';
+import { useState, type KeyboardEvent } from 'react';
+import dynamic from 'next/dynamic';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, Github, Image as ImageIcon, Maximize2, TrendingUp, Workflow } from 'lucide-react';
 import { projects, type Project } from '@/lib/data';
 import { SectionHeading } from '../SectionHeading';
 import { GlassCard } from '../GlassCard';
 import { Reveal } from '../Reveal';
 import { Badge } from '../Badge';
-import { Tilt } from '../Tilt';
-import { WorkflowDiagram } from '../WorkflowDiagram';
+import { WorkflowScreenshot } from '../WorkflowScreenshot';
 import { cn } from '@/lib/utils';
 
-type PreviewMode = 'shot' | 'arch';
+const WorkflowDiagram = dynamic(
+  () => import('../WorkflowDiagram').then((module) => module.WorkflowDiagram),
+  {
+    ssr: false,
+    loading: () => (
+      <div role="status" className="flex h-full items-center justify-center gap-2 text-sm text-fg-muted">
+        <Workflow className="h-5 w-5" aria-hidden="true" />
+        Loading architecture…
+      </div>
+    ),
+  }
+);
+const ScreenshotLightbox = dynamic(
+  () => import('../ScreenshotLightbox').then((module) => module.ScreenshotLightbox),
+  { ssr: false }
+);
 
-/**
- * Workflow Gallery — the flagship section.
- * Each card shows a large screenshot placeholder, technology badges, a
- * features list, the business impact and GitHub / Live Demo buttons.
- * Cards use a 3D tilt on hover and gently float into view.
- */
+type PreviewMode = 'shot' | 'arch';
+const VISIBLE_FEATURES = 6;
+
+/** The gallery uses the same project model for cards, previews, and diagrams. */
 export function Projects() {
   return (
     <section id="projects" className="section">
@@ -34,10 +46,9 @@ export function Projects() {
         }
         description="A selection of production automations — from AI lead intake to outbound engines — each built to remove manual effort and drive measurable results."
       />
-
-      <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <div className="mt-16 grid min-w-0 grid-cols-1 items-stretch gap-8 lg:grid-cols-2">
         {projects.map((project, i) => (
-          <Reveal key={project.id} delay={(i % 2) * 0.1} direction="up">
+          <Reveal key={project.id} className="h-full min-w-0" delay={(i % 2) * 0.1} direction="up">
             <ProjectCard project={project} />
           </Reveal>
         ))}
@@ -47,116 +58,130 @@ export function Projects() {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  // Long feature lists are collapsed by default and expandable.
   const [expanded, setExpanded] = useState(false);
-  // Toggle between the real screenshot and the architecture diagram.
   const [mode, setMode] = useState<PreviewMode>('shot');
-  const VISIBLE = 6;
-  const shownFeatures = expanded
-    ? project.features
-    : project.features.slice(0, VISIBLE);
-  const remaining = project.features.length - VISIBLE;
+  const reducedMotion = useReducedMotion();
+  const remaining = project.features.length - VISIBLE_FEATURES;
+  const featurePanelId = project.id + '-more-features';
+  const titleId = project.id + '-title';
 
   return (
-    <Tilt max={6} className="group h-full [transform-style:preserve-3d]">
-      <GlassCard
-        strong
-        gradientBorder
-        className="flex h-full flex-col overflow-hidden"
-      >
-        {/* -------------------- Preview: shot ⇄ diagram -------------------- */}
-        <ProjectPreview project={project} mode={mode} onMode={setMode} />
-
-        {/* ----------------------------- Body ----------------------------- */}
-        <div className="flex flex-1 flex-col p-6 md:p-7">
-          <h3 className="font-display text-xl font-bold text-white">
-            {project.title}
-          </h3>
-          <p className="mt-2 text-sm leading-relaxed text-white/60">
-            {project.description}
-          </p>
-
-          {/* Tech badges */}
-          <div className="mt-5 flex flex-wrap gap-2">
-            {project.tech.map((t) => (
-              <Badge key={t}>{t}</Badge>
-            ))}
-          </div>
-
-          {/* Features */}
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-white/40">
-              Key Features
+    <article aria-labelledby={titleId} className="h-full min-w-0">
+        <GlassCard strong gradientBorder className="group flex h-full min-w-0 flex-col overflow-hidden">
+          <ProjectPreview project={project} mode={mode} onMode={setMode} />
+          <div className="flex min-w-0 flex-1 flex-col p-6 md:p-7">
+            <h3 id={titleId} className="break-words font-display text-xl font-bold leading-snug text-fg">
+              {project.title}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-fg-muted">
+              {project.description}
             </p>
-            <ul className="mt-3 grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
-              {shownFeatures.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-sm text-white/70">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent-emerald" />
-                  <span>{f}</span>
+
+            <ul aria-label="Technology stack" className="mt-5 flex min-w-0 flex-wrap gap-2">
+              {project.tech.map((tech) => (
+                <li key={tech} className="min-w-0">
+                  <Badge className="max-w-full border-border bg-surface/80 py-1.5 text-fg-muted hover:border-accent-sky/50 hover:bg-surface-hover hover:text-fg">
+                    {tech}
+                  </Badge>
                 </li>
               ))}
             </ul>
-            {remaining > 0 && (
-              <button
-                onClick={() => setExpanded((v) => !v)}
-                className="mt-3 text-xs font-medium text-accent-cyan transition-colors hover:text-white"
-              >
-                {expanded ? 'Show less' : `+ ${remaining} more features`}
-              </button>
-            )}
-          </div>
 
-          {/* Business impact */}
-          <div className="mt-6 flex items-start gap-3 rounded-2xl border border-accent-emerald/20 bg-accent-emerald/5 p-4">
-            <TrendingUp className="mt-0.5 h-5 w-5 shrink-0 text-accent-emerald" />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-accent-emerald/80">
-                Business Impact
-              </p>
-              <p className="mt-0.5 text-sm font-medium text-white">
-                {project.impact}
-              </p>
+            <div className="mt-6">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-fg-muted dark:text-fg-subtle">
+                Key Features
+              </h4>
+              <FeatureList features={project.features.slice(0, VISIBLE_FEATURES)} className="mt-3" />
+              {remaining > 0 && (
+                <>
+                  <motion.div
+                    id={featurePanelId}
+                    initial={false}
+                    animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.24, ease: 'easeOut' }}
+                    aria-hidden={!expanded}
+                    className="overflow-hidden"
+                  >
+                    <FeatureList features={project.features.slice(VISIBLE_FEATURES)} className="pt-2" />
+                  </motion.div>
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    aria-controls={featurePanelId}
+                    onClick={() => setExpanded((value) => !value)}
+                    className="workflow-control mt-2 gap-2 px-3 text-xs font-semibold text-fg-muted dark:text-accent-sky"
+                  >
+                    {expanded ? 'Show less' : '+ ' + remaining + ' more features'}
+                    <ChevronDown
+                      aria-hidden="true"
+                      className={cn('h-4 w-4 transition-transform duration-200 motion-reduce:transition-none', expanded && 'rotate-180')}
+                    />
+                  </button>
+                </>
+              )}
+            </div>
+
+            <div className="mt-auto pt-6">
+              <div className="flex min-w-0 items-start gap-3 rounded-2xl border border-accent-success/35 bg-accent-success/10 p-4 transition-colors duration-200 hover:border-accent-success/60 hover:bg-accent-success/15 motion-reduce:transition-none">
+                <TrendingUp className="mt-0.5 h-5 w-5 shrink-0 text-accent-success" aria-hidden="true" />
+                <div className="min-w-0">
+                  <h4 className="text-xs font-semibold uppercase tracking-wide text-fg">
+                    Business Impact
+                  </h4>
+                  <p className="mt-1 text-sm font-medium leading-relaxed text-fg-muted">
+                    {project.impact}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="workflow-control gap-2 border border-border bg-surface/80 px-4 text-sm font-medium text-fg hover:border-accent-sky/50"
+                  >
+                    <Github className="h-4 w-4" aria-hidden="true" />
+                    GitHub
+                    <span className="sr-only"> for {project.title} (opens in a new tab)</span>
+                  </a>
+                )}
+                {project.demo && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="workflow-focus inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-gradient px-4 text-sm font-semibold text-ink shadow-glow transition-shadow duration-200 hover:shadow-glow-strong motion-reduce:transition-none"
+                  >
+                    Live Demo
+                    <span className="sr-only"> for {project.title} (opens in a new tab)</span>
+                    <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
-
-          {/* Actions */}
-          <div className="mt-6 flex flex-wrap gap-3 pt-2">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition-all hover:border-white/25 hover:bg-white/10 hover:text-white"
-              >
-                <Github className="h-4 w-4" />
-                GitHub
-              </a>
-            )}
-            {project.demo && (
-              <a
-                href={project.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/btn inline-flex items-center gap-2 rounded-full bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition-all hover:shadow-glow-strong"
-              >
-                Live Demo
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-              </a>
-            )}
-          </div>
-        </div>
-      </GlassCard>
-    </Tilt>
+        </GlassCard>
+    </article>
   );
 }
 
-/**
- * Preview shown at the top of each project card. Switches between two views:
- * - "shot"  — real screenshot(s) from /public/projects (carousel if multiple),
- *             with a gradient + emoji fallback if none are set or one fails.
- * - "arch"  — a branded architecture diagram generated from project.arch.
- * The segmented toggle only appears when the project defines an architecture.
- */
+function FeatureList({ features, className }: { features: string[]; className?: string }) {
+  return (
+    <ul className={cn('grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2', className)}>
+      {features.map((feature) => (
+        <li
+          key={feature}
+          className="flex min-w-0 items-start gap-2 rounded-xl border border-border/70 bg-surface/70 px-3 py-2.5 text-sm leading-relaxed text-fg-muted transition-colors duration-200 hover:border-accent-sky/35 hover:bg-surface-hover motion-reduce:transition-none"
+        >
+          <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent-success" aria-hidden="true" />
+          <span className="min-w-0 break-words">{feature}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function ProjectPreview({
   project,
   mode,
@@ -164,181 +189,189 @@ function ProjectPreview({
 }: {
   project: Project;
   mode: PreviewMode;
-  onMode: (m: PreviewMode) => void;
+  onMode: (mode: PreviewMode) => void;
 }) {
   const images = project.images ?? [];
   const [index, setIndex] = useState(0);
-  const [failed, setFailed] = useState(false);
-
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const reducedMotion = useReducedMotion();
   const hasArch = Boolean(project.arch?.length);
-  const showArch = mode === 'arch' && hasArch;
-  const hasImages = images.length > 0 && !failed;
-  const multiple = images.length > 1;
+  const panelId = project.id + '-preview-panel';
+  const tabId = (view: PreviewMode) => project.id + '-tab-' + view;
+  const go = (direction: number) => setIndex((current) => (current + direction + images.length) % images.length);
 
-  const go = (dir: number) => {
-    setIndex((i) => (i + dir + images.length) % images.length);
-  };
+  function handleTabsKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+    const next: PreviewMode = event.key === 'Home'
+      ? 'shot'
+      : event.key === 'End'
+        ? 'arch'
+        : mode === 'shot' ? 'arch' : 'shot';
+    onMode(next);
+    event.currentTarget.querySelector<HTMLButtonElement>('[data-mode="' + next + '"]')?.focus();
+  }
 
   return (
-    <div
-      className={cn(
-        'relative flex aspect-[16/10] items-center justify-center overflow-hidden',
-        showArch
-          ? 'bg-base-950/80 bg-grid-pattern bg-[size:28px_28px]'
-          : cn('bg-gradient-to-br', project.gradient)
-      )}
-    >
-      {/* Faux browser chrome */}
-      <div className="absolute left-4 top-4 z-20 flex gap-1.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-white/30" />
-        <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
-        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+    <div className="min-w-0 border-b border-border/60 bg-surface/80">
+      <div className="flex min-w-0 items-center gap-2 border-b border-border/60 px-3 py-2">
+        {hasArch ? (
+          <div
+            role="tablist"
+            aria-label={project.title + ' preview'}
+            onKeyDown={handleTabsKeyDown}
+            className="relative flex min-w-0 flex-1 rounded-xl border border-border/70 bg-bg/60 p-1"
+          >
+            {(['shot', 'arch'] as const).map((view) => {
+              const active = mode === view;
+              const Icon = view === 'shot' ? ImageIcon : Workflow;
+              return (
+                <button
+                  key={view}
+                  type="button"
+                  role="tab"
+                  id={tabId(view)}
+                  data-mode={view}
+                  aria-selected={active}
+                  aria-controls={panelId}
+                  tabIndex={active ? 0 : -1}
+                  onClick={() => onMode(view)}
+                  className={cn('workflow-control relative min-w-0 flex-1 gap-2 px-2 text-xs font-semibold sm:px-3', active ? 'text-fg' : 'text-fg-muted')}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId={reducedMotion ? undefined : project.id + '-active-preview'}
+                      transition={{ duration: reducedMotion ? 0 : 0.2, ease: 'easeOut' }}
+                      className="absolute inset-0 rounded-lg border border-accent-sky/40 bg-accent-primary/20"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <Icon className="relative h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span className="relative">{view === 'shot' ? 'Screenshot' : 'Diagram'}</span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="flex min-h-11 flex-1 items-center gap-2 text-xs font-semibold text-fg-muted">
+            <ImageIcon className="h-4 w-4" aria-hidden="true" />
+            Screenshot
+          </p>
+        )}
+        <div className="w-11 shrink-0">
+          {mode === 'shot' && images.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              aria-label={'Enlarge screenshots for ' + project.title}
+              title="Enlarge screenshots"
+              aria-haspopup="dialog"
+              className="workflow-control"
+            >
+              <Maximize2 className="h-4 w-4" aria-hidden="true" />
+            </button>
+          )}
+        </div>
       </div>
 
-      {/* View toggle: Screenshot ⇄ Diagram */}
-      {hasArch && (
-        <div className="absolute right-3 top-3 z-30 flex items-center gap-0.5 rounded-full border border-snow/15 bg-black/45 p-0.5 backdrop-blur">
-          <ToggleButton
-            active={mode === 'shot'}
-            onClick={() => onMode('shot')}
-            icon={<ImageIcon className="h-3.5 w-3.5" />}
-            label="Screenshot"
-          />
-          <ToggleButton
-            active={mode === 'arch'}
-            onClick={() => onMode('arch')}
-            icon={<Workflow className="h-3.5 w-3.5" />}
-            label="Diagram"
-          />
-        </div>
-      )}
-
-      {showArch ? (
-        /* -------------------------- Architecture -------------------------- */
-        <div className="absolute inset-0 pt-12">
-          <WorkflowDiagram stages={project.arch!} />
-        </div>
-      ) : hasImages ? (
-        <>
-          {/* Screenshot(s) */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 1.02 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={images[index]}
-                alt={`${project.title} — screenshot ${index + 1}`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain"
-                onError={() => setFailed(true)}
-                priority={false}
-              />
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Gradient scrim for legibility of overlays */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-base-950/80 via-transparent to-transparent" />
-
-          {/* Tagline pill */}
-          <span className="absolute bottom-3 left-4 z-20 rounded-full border border-snow/20 bg-black/40 px-3 py-1 text-xs font-medium text-snow/85 backdrop-blur">
-            {project.tagline}
-          </span>
-
-          {/* Carousel controls (only when multiple images) */}
-          {multiple && (
-            <>
-              <button
-                type="button"
-                onClick={() => go(-1)}
-                aria-label="Previous screenshot"
-                className="absolute left-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-snow/15 bg-black/40 text-snow/90 backdrop-blur transition-colors hover:bg-black/60"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => go(1)}
-                aria-label="Next screenshot"
-                className="absolute right-3 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-snow/15 bg-black/40 text-snow/90 backdrop-blur transition-colors hover:bg-black/60"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
-
-              {/* Dot indicators */}
-              <div className="absolute bottom-3 right-4 z-20 flex gap-1.5">
-                {images.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setIndex(i)}
-                    aria-label={`Go to screenshot ${i + 1}`}
-                    className={cn(
-                      'h-1.5 rounded-full transition-all',
-                      i === index ? 'w-5 bg-snow' : 'w-1.5 bg-snow/40 hover:bg-snow/70'
-                    )}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      ) : (
-        /* Fallback: gradient + emoji placeholder */
-        <>
-          <div className="absolute inset-0 bg-grid-pattern bg-[size:28px_28px] opacity-40" />
+      <div
+        id={panelId}
+        role={hasArch ? 'tabpanel' : undefined}
+        aria-labelledby={hasArch ? tabId(mode) : undefined}
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.altKey || event.ctrlKey || event.metaKey || mode !== 'shot' || images.length < 2) return;
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+            event.preventDefault();
+            go(event.key === 'ArrowLeft' ? -1 : 1);
+          }
+        }}
+        className="workflow-focus relative h-80 min-w-0 overflow-hidden bg-bg/90 bg-grid-pattern bg-[size:28px_28px] sm:h-96"
+      >
+        <AnimatePresence initial={false} mode="wait">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 120, damping: 14 }}
-            className="relative flex flex-col items-center gap-3 text-center"
+            key={mode}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: reducedMotion ? 0 : 0.18, ease: 'easeOut' }}
+            className="absolute inset-0 min-w-0"
           >
-            <span className="text-6xl drop-shadow-lg">{project.emoji}</span>
-            <span className="rounded-full border border-snow/20 bg-black/30 px-3 py-1 text-xs font-medium text-snow/80 backdrop-blur">
-              {project.tagline}
-            </span>
+            {mode === 'arch' && project.arch ? (
+              <WorkflowDiagram stages={project.arch} />
+            ) : images.length > 0 ? (
+              <AnimatePresence initial={false} mode="wait">
+                <motion.div
+                  key={images[index]}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reducedMotion ? 0 : 0.2, ease: 'easeOut' }}
+                  className="absolute inset-0"
+                >
+                  <WorkflowScreenshot src={images[index]} alt={project.title + ' — screenshot ' + (index + 1) + ' of ' + images.length} />
+                </motion.div>
+              </AnimatePresence>
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center text-fg-muted">
+                <Workflow className="h-12 w-12 text-accent-sky" aria-hidden="true" />
+                <p className="text-sm">Explore the architecture to see this workflow.</p>
+              </div>
+            )}
           </motion.div>
-          <span className="absolute bottom-3 right-4 text-[10px] uppercase tracking-widest text-snow/40">
-            Workflow preview
-          </span>
-        </>
+        </AnimatePresence>
+      </div>
+
+      <div className="flex h-16 min-w-0 items-center justify-center border-t border-border/60 px-3">
+        {mode === 'shot' && images.length > 1 ? (
+          <div role="group" aria-label="Screenshot navigation" className="flex w-full items-center justify-between gap-2">
+            <button type="button" onClick={() => go(-1)} aria-label="Previous screenshot" className="workflow-control">
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <div className="flex min-w-0 items-center justify-center">
+              {images.map((src, imageIndex) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setIndex(imageIndex)}
+                  aria-label={'Show screenshot ' + (imageIndex + 1) + ' of ' + images.length}
+                  aria-current={imageIndex === index ? 'true' : undefined}
+                  className="workflow-control"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={cn('h-1.5 w-4 rounded-full transition-colors duration-200 motion-reduce:transition-none', imageIndex === index ? 'bg-accent-sky' : 'bg-fg-subtle/40')}
+                  />
+                </button>
+              ))}
+            </div>
+            <button type="button" onClick={() => go(1)} aria-label="Next screenshot" className="workflow-control">
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <span className="sr-only" aria-live="polite" aria-atomic="true">
+              Screenshot {index + 1} of {images.length}
+            </span>
+          </div>
+        ) : (
+          <p className="text-xs text-fg-muted">
+            {mode === 'arch' ? 'Select a node to inspect its role' : 'Workflow screenshot'}
+          </p>
+        )}
+      </div>
+      <p className="flex h-16 min-w-0 items-center border-t border-border/60 px-4 text-xs leading-5 text-fg-muted">
+        {project.tagline}
+      </p>
+
+      {lightboxOpen && (
+        <ScreenshotLightbox
+          project={project}
+          index={index}
+          onIndex={setIndex}
+          onClose={() => setLightboxOpen(false)}
+        />
       )}
     </div>
-  );
-}
-
-function ToggleButton({
-  active,
-  onClick,
-  icon,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      title={label}
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-all',
-        active
-          ? 'bg-snow text-ink shadow-sm'
-          : 'text-snow/70 hover:text-snow'
-      )}
-    >
-      {icon}
-      <span className="hidden sm:inline">{label}</span>
-    </button>
   );
 }

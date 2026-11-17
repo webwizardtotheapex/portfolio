@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, type Variants } from 'framer-motion';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { ReactNode } from 'react';
 
 type Direction = 'up' | 'down' | 'left' | 'right' | 'none';
@@ -46,15 +46,16 @@ export function Reveal({
   className,
   repeat = false,
 }: RevealProps) {
+  const reducedMotion = useReducedMotion();
   const variants: Variants = {
-    hidden: { opacity: 0, ...offset(direction, distance) },
+    hidden: { opacity: reducedMotion ? 1 : 0, ...offset(direction, reducedMotion ? 0 : distance) },
     visible: {
       opacity: 1,
       x: 0,
       y: 0,
       transition: {
-        duration: 0.7,
-        delay,
+        duration: reducedMotion ? 0 : 0.7,
+        delay: reducedMotion ? 0 : delay,
         ease: [0.21, 0.47, 0.32, 0.98],
       },
     },

@@ -1,0 +1,448 @@
+[
+  {
+    "id": "multi-channel-ai-agent-unified-crm-system",
+    "title": "Multi-Channel AI Agent & Unified CRM System",
+    "tagline": "One AI brain across Web Chat, Email & WhatsApp",
+    "description": "A production-grade omnichannel AI system in n8n that unifies Website Live Chat, Gmail, and WhatsApp (GREEN-API) into a single centralized pipeline with cross-channel identity resolution, RAG Knowledge Base grounding, and automated human escalation guardrails.",
+    "features": [
+      "Multi-Channel Ingestion (Web, Email, WhatsApp)",
+      "Cross-Channel Identity Resolution",
+      "Database-Backed Conversation Memory",
+      "RAG Knowledge Base Grounding",
+      "Channel-Adaptive AI Formatting",
+      "Automated Human Escalation Kill-Switch",
+      "WhatsApp Group Noise Filtering (@c.us)",
+      "Regex Contact Extraction",
+      "Zero-Repetition Context Continuity",
+      "8-Category Intent Classification",
+      "Structured JSON Output Parsing",
+      "Anti-Hallucination Guardrails",
+      "Executive Human Handoff Dossiers",
+      "Automated Retry & Global Error Handling"
+    ],
+    "tech": ["n8n", "Google Gemini", "JavaScript", "GREEN-API", "WhatsApp", "Gmail", "Google Sheets CRM", "Webhooks"],
+    "impact": "Eliminates duplicate CRM records and resolves multi-channel inquiries 24/7 while escalating sensitive cases to human agents with full context.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-cyan/25 via-accent-emerald/20 to-accent-violet/25",
+    "emoji": "🤖",
+    "images": [
+      "/projects/Multichannel AI Agent.png",
+      "/projects/Mu;ti-channel AI Agent CRM.png",
+      "/projects/Mu;ti-channel AI Agent CRM customer.png"
+    ],
+    "arch": [
+      {
+        "title": "Triggers",
+        "nodes": [
+          { "label": "Website Chat", "icon": "message-circle", "kind": "trigger" },
+          { "label": "Gmail", "icon": "gmail", "kind": "trigger" },
+          { "label": "WhatsApp (GREEN-API)", "icon": "whatsapp", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Standardize",
+        "nodes": [
+          { "label": "Payload Standardization", "icon": "javascript", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Resolve Identity",
+        "nodes": [
+          { "label": "Identity Resolution", "icon": "network", "kind": "process" },
+          { "label": "CRM Lookup", "icon": "google-sheets", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Build Context",
+        "nodes": [
+          { "label": "Conversation History", "icon": "database", "kind": "process" },
+          { "label": "RAG Knowledge Base", "icon": "database", "kind": "process" },
+          { "label": "History + KB Context Builder", "icon": "braces", "kind": "process" }
+        ]
+      },
+      {
+        "title": "AI Agent",
+        "nodes": [
+          { "label": "Gemini AI Agent", "icon": "google", "kind": "ai" },
+          { "label": "Structured Parser", "icon": "json", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Guardrail",
+        "nodes": [
+          { "label": "Escalation Guardrail (If)", "icon": "shield-check", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Escalate OR Reply",
+        "nodes": [
+          { "label": "Yes → Human Alert", "icon": "bell", "kind": "output" },
+          { "label": "No → Channel Switch Router (Web / Email / WhatsApp)", "icon": "network", "kind": "process" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "reputation-feedback-intelligence-engine",
+    "title": "Reputation & Feedback Intelligence Engine",
+    "tagline": "Turn every service visit into reputation growth",
+    "description": "A full-stack reputation platform that requests feedback after every service visit, classifies sentiment and severity with AI, then routes each case — public review, private recovery or manager escalation — from a Next.js + Supabase command center wired to n8n.",
+    "features": [
+      "AI Sentiment Analysis",
+      "Severity Scoring",
+      "Smart Feedback Routing",
+      "Positive → Public Review",
+      "Negative → Private Recovery",
+      "Manager Escalation Alerts",
+      "Human-in-the-Loop Review",
+      "AI Response Generation",
+      "Repeat-Complaint Detection",
+      "Feedback History Tracking",
+      "Multi-Location Support",
+      "Live Analytics Dashboard",
+      "Visits & Customer CRM",
+      "Supabase Data Platform"
+    ],
+    "tech": ["Next.js", "TypeScript", "Supabase", "n8n", "OpenAI", "Gmail", "Tailwind CSS"],
+    "impact": "Catches unhappy customers before they post — protecting public ratings and recovering revenue.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-emerald/25 via-accent-cyan/20 to-accent-fuchsia/25",
+    "emoji": "⭐",
+    "images": [
+      "/projects/reputation-feedback-engine.png",
+      "/projects/reputation-feedback-engine-2.png",
+      "/projects/reputation-feedback-engine-3.png"
+    ],
+    "arch": [
+      {
+        "title": "Collect",
+        "nodes": [
+          { "label": "Service Visit", "icon": "car", "kind": "trigger" },
+          { "label": "Feedback Email", "icon": "gmail", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Understand",
+        "nodes": [
+          { "label": "Extract Reply", "icon": "braces", "kind": "process" },
+          { "label": "Match Customer", "icon": "users", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Analyze",
+        "nodes": [
+          { "label": "AI Sentiment", "icon": "openai", "kind": "ai" },
+          { "label": "Severity Score", "icon": "brain-circuit", "kind": "ai" },
+          { "label": "Feedback History", "icon": "database", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Route",
+        "nodes": [
+          { "label": "Sentiment Router", "icon": "network", "kind": "process" },
+          { "label": "AI Response Draft", "icon": "openai", "kind": "ai" }
+        ]
+      },
+      {
+        "title": "Act",
+        "nodes": [
+          { "label": "Public Review", "icon": "star", "kind": "output" },
+          { "label": "Private Recovery", "icon": "shield-check", "kind": "output" },
+          { "label": "Manager Alert", "icon": "bell", "kind": "output" },
+          { "label": "Human Review", "icon": "clipboard-list", "kind": "output" }
+        ]
+      },
+      {
+        "title": "Track",
+        "nodes": [
+          { "label": "Supabase", "icon": "supabase", "kind": "output" },
+          { "label": "Dashboard", "icon": "dashboard", "kind": "output" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "real-estate-lead-intake-ai",
+    "title": "Real Estate Lead Intake AI",
+    "tagline": "Enterprise lead management, fully automated",
+    "description": "An enterprise AI-powered Real Estate Lead Management System built in n8n that qualifies, scores and routes every inbound lead automatically.",
+    "features": [
+      "AI Lead Qualification",
+      "Lead Scoring",
+      "Hot / Warm / Cold Classification",
+      "Spam Detection",
+      "AI Email Replies",
+      "HubSpot CRM Integration",
+      "Google Sheets Logging",
+      "Google Calendar Booking",
+      "Slack Notifications",
+      "WhatsApp Notifications",
+      "Twilio Integration",
+      "Property Recommendation AI",
+      "Duplicate Lead Detection",
+      "Automatic Task Creation",
+      "Automatic Deal Creation"
+    ],
+    "tech": ["n8n", "OpenAI", "HubSpot", "Google Sheets", "Google Calendar", "Slack", "Twilio", "WhatsApp"],
+    "impact": "Reduces manual lead qualification by over 90%.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-cyan/25 via-accent-violet/20 to-accent-fuchsia/25",
+    "emoji": "🏡",
+    "images": [
+      "/projects/real-estate-lead-intake-ai.png",
+      "/projects/real-estate-lead-intake-ai-2.png"
+    ],
+    "arch": [
+      {
+        "title": "Capture",
+        "nodes": [
+          { "label": "Email / Form", "icon": "mail", "kind": "trigger" },
+          { "label": "Webhook", "icon": "webhook", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Qualify",
+        "nodes": [
+          { "label": "AI Scoring", "icon": "openai", "kind": "ai" },
+          { "label": "Spam Filter", "icon": "bot", "kind": "ai" },
+          { "label": "Duplicate Check", "icon": "database", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Enrich",
+        "nodes": [
+          { "label": "Property Match", "icon": "openai", "kind": "ai" },
+          { "label": "AI Reply Draft", "icon": "openai", "kind": "ai" }
+        ]
+      },
+      {
+        "title": "Store & Route",
+        "nodes": [
+          { "label": "HubSpot", "icon": "hubspot", "kind": "output" },
+          { "label": "Google Sheets", "icon": "google-sheets", "kind": "output" },
+          { "label": "Google Calendar", "icon": "google-calendar", "kind": "output" }
+        ]
+      },
+      {
+        "title": "Notify",
+        "nodes": [
+          { "label": "Slack", "icon": "slack", "kind": "output" },
+          { "label": "WhatsApp", "icon": "message-circle", "kind": "output" },
+          { "label": "Twilio", "icon": "phone", "kind": "output" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "outreachos-linkedin-outreach",
+    "title": "OutreachOS — LinkedIn Outreach",
+    "tagline": "Personalized outreach at scale",
+    "description": "A complete LinkedIn outreach automation platform that manages prospects, personalizes messaging with AI and keeps your CRM perfectly in sync.",
+    "features": [
+      "Prospect Management",
+      "AI Personalization",
+      "Automated Follow-ups",
+      "Lead Tracking",
+      "CRM Sync",
+      "OpenAI Integration",
+      "Google Sheets Database"
+    ],
+    "tech": ["n8n", "OpenAI", "Google Sheets", "CRM"],
+    "impact": "Turns cold prospecting into a hands-off, personalized pipeline.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-violet/25 via-accent-fuchsia/20 to-accent-cyan/25",
+    "emoji": "🔗",
+    "images": ["/projects/outreachos-linkedin-outreach.png"],
+    "arch": [
+      {
+        "title": "Source",
+        "nodes": [
+          { "label": "Prospect List", "icon": "users", "kind": "trigger" },
+          { "label": "Google Sheets", "icon": "google-sheets", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Personalize",
+        "nodes": [
+          { "label": "AI Research", "icon": "openai", "kind": "ai" },
+          { "label": "AI Message", "icon": "openai", "kind": "ai" }
+        ]
+      },
+      {
+        "title": "Outreach",
+        "nodes": [
+          { "label": "LinkedIn DM", "icon": "network", "kind": "process" },
+          { "label": "Auto Follow-up", "icon": "workflow", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Sync",
+        "nodes": [
+          { "label": "CRM Update", "icon": "database", "kind": "output" },
+          { "label": "Lead Tracker", "icon": "google-sheets", "kind": "output" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "outreachos-follow-up-system",
+    "title": "OutreachOS — Follow Up System",
+    "tagline": "Never miss a follow-up again",
+    "description": "Automatically follows up with prospects on a predefined schedule, tracks responses and keeps every lead warm without manual effort.",
+    "features": ["Email Follow-up", "Reminder System", "Lead Tracking", "Response Monitoring"],
+    "tech": ["n8n", "OpenAI", "Email", "Google Sheets"],
+    "impact": "Recovers revenue lost to forgotten follow-ups.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-emerald/25 via-accent-cyan/20 to-accent-violet/25",
+    "emoji": "📨",
+    "images": ["/projects/outreachos-follow-up-system.png"],
+    "arch": [
+      {
+        "title": "Schedule",
+        "nodes": [
+          { "label": "Cron Trigger", "icon": "calendar", "kind": "trigger" },
+          { "label": "Lead Queue", "icon": "google-sheets", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Decide",
+        "nodes": [
+          { "label": "Response Check", "icon": "workflow", "kind": "process" },
+          { "label": "AI Follow-up", "icon": "openai", "kind": "ai" }
+        ]
+      },
+      {
+        "title": "Send",
+        "nodes": [{ "label": "Email", "icon": "mail", "kind": "output" }]
+      },
+      {
+        "title": "Track",
+        "nodes": [
+          { "label": "Log Status", "icon": "google-sheets", "kind": "output" },
+          { "label": "Reminder", "icon": "clipboard-list", "kind": "output" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "upwork-job-hunt-telegram-alert",
+    "title": "Upwork Job Hunt with Telegram Alert",
+    "tagline": "Be first to every matching job",
+    "description": "Continuously monitors Upwork jobs and instantly pushes matching opportunities to Telegram, filtered by keywords and refined with AI.",
+    "features": ["Job Monitoring", "Keyword Filtering", "Telegram Alerts", "AI Filtering"],
+    "tech": ["n8n", "OpenAI", "Telegram", "Webhooks"],
+    "impact": "Delivers qualified job leads in real time — zero manual searching.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-cyan/25 via-accent-emerald/20 to-accent-violet/25",
+    "emoji": "🔔",
+    "images": ["/projects/upwork-job-hunt-telegram-alert.png"],
+    "arch": [
+      {
+        "title": "Monitor",
+        "nodes": [
+          { "label": "Upwork Feed", "icon": "webhook", "kind": "trigger" },
+          { "label": "Polling", "icon": "calendar", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Filter",
+        "nodes": [
+          { "label": "Keyword Match", "icon": "workflow", "kind": "process" },
+          { "label": "AI Relevance", "icon": "openai", "kind": "ai" }
+        ]
+      },
+      {
+        "title": "Alert",
+        "nodes": [{ "label": "Telegram", "icon": "telegram", "kind": "output" }]
+      }
+    ]
+  },
+  {
+    "id": "domain-outreach-engine",
+    "title": "Domain Outreach Engine",
+    "tagline": "AI-powered outbound for premium domains",
+    "description": "An AI-powered outbound system that discovers premium domain buyers and automates hyper-personalized outreach end to end.",
+    "features": ["Lead Discovery", "Email Automation", "CRM Tracking", "AI Personalization"],
+    "tech": ["n8n", "OpenAI", "Email", "CRM"],
+    "impact": "Automates prospecting and outreach for high-value domain sales.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-fuchsia/25 via-accent-violet/20 to-accent-cyan/25",
+    "emoji": "🌐",
+    "images": ["/projects/domain-outreach-engine.png"],
+    "arch": [
+      {
+        "title": "Discover",
+        "nodes": [
+          { "label": "Domain Scan", "icon": "network", "kind": "trigger" },
+          { "label": "Buyer Lookup", "icon": "users", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Personalize",
+        "nodes": [
+          { "label": "AI Research", "icon": "openai", "kind": "ai" },
+          { "label": "AI Pitch", "icon": "openai", "kind": "ai" }
+        ]
+      },
+      {
+        "title": "Outreach",
+        "nodes": [{ "label": "Email Sequence", "icon": "mail", "kind": "output" }]
+      },
+      {
+        "title": "Track",
+        "nodes": [
+          { "label": "CRM", "icon": "database", "kind": "output" },
+          { "label": "Pipeline Log", "icon": "google-sheets", "kind": "output" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ai-job-application-tracker",
+    "title": "AI Job Application Tracker",
+    "tagline": "Your job search on autopilot",
+    "description": "Tracks job applications automatically, organizes statuses and keeps interview stages up to date without any manual bookkeeping.",
+    "features": ["Job Tracker", "Interview Tracker", "Application Status", "Automatic Updates"],
+    "tech": ["n8n", "OpenAI", "Google Sheets"],
+    "impact": "Keeps every application organized and up to date automatically.",
+    "github": "default",
+    "demo": "default",
+    "gradient": "from-accent-violet/25 via-accent-cyan/20 to-accent-emerald/25",
+    "emoji": "🗂️",
+    "images": ["/projects/ai-job-application-tracker.png"],
+    "arch": [
+      {
+        "title": "Capture",
+        "nodes": [
+          { "label": "Application Email", "icon": "mail", "kind": "trigger" },
+          { "label": "Form Submit", "icon": "webhook", "kind": "trigger" }
+        ]
+      },
+      {
+        "title": "Classify",
+        "nodes": [
+          { "label": "AI Parse", "icon": "openai", "kind": "ai" },
+          { "label": "Stage Detect", "icon": "workflow", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Organize",
+        "nodes": [
+          { "label": "Status Update", "icon": "clipboard-list", "kind": "process" },
+          { "label": "Interview Log", "icon": "calendar", "kind": "process" }
+        ]
+      },
+      {
+        "title": "Store",
+        "nodes": [{ "label": "Google Sheets", "icon": "google-sheets", "kind": "output" }]
+      }
+    ]
+  }
+]

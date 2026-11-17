@@ -126,6 +126,53 @@ body {
 /* -------------------------------------------------------------------------- */
 
 @layer components {
+  /* Gallery controls share the portfolio's semantic tokens and 44px targets. */
+  .workflow-focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary dark:focus-visible:ring-accent-sky focus-visible:ring-offset-2 focus-visible:ring-offset-surface;
+  }
+
+  .workflow-control {
+    @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-fg-muted transition-colors duration-200 hover:bg-surface-hover hover:text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary dark:focus-visible:ring-accent-sky focus-visible:ring-offset-2 focus-visible:ring-offset-surface motion-reduce:transition-none;
+  }
+
+  .workflow-dialog::backdrop {
+    background: rgb(var(--bg) / 0.9);
+    backdrop-filter: blur(12px);
+  }
+
+  .workflow-dialog[open] {
+    animation: workflow-dialog-enter 0.18s ease-out;
+  }
+
+  @keyframes workflow-dialog-enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .workflow-flow-pulse {
+    animation: workflow-data-flow 2.8s ease-in-out infinite;
+  }
+
+  @keyframes workflow-data-flow {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -8px);
+    }
+    25%, 75% {
+      opacity: 0.65;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+  }
+
   /* Frosted glass surface used across cards, navbar, chips. */
   .glass {
     @apply border border-border/40 bg-surface/30 backdrop-blur-xl;

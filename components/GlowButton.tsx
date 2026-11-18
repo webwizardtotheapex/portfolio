@@ -19,16 +19,15 @@ interface BaseProps {
 }
 
 const sizeStyles: Record<Size, string> = {
-  sm: 'px-4 py-2 text-sm',
-  md: 'px-6 py-3 text-sm',
-  lg: 'px-8 py-4 text-base',
+  sm: 'min-h-11 px-4 py-2 text-xs',
+  md: 'min-h-12 px-5 py-3 text-sm',
+  lg: 'min-h-[3.25rem] px-6 py-3.5 text-sm',
 };
 
 const variantStyles: Record<Variant, string> = {
-  // Filled gradient button with animated glow halo. Text stays white in both
-  // themes since it sits on the coloured brand gradient.
+  // Dark lettering retains contrast on the electric brand gradient.
   primary:
-    'text-snow bg-brand-gradient shadow-glow hover:shadow-glow-strong',
+    'text-ink bg-brand-gradient shadow-glow hover:shadow-glow-strong',
   // Glass outline button — adapts to the theme foreground.
   secondary:
     'text-fg/90 glass-strong hover:bg-surface-hover hover:text-fg',
@@ -49,7 +48,7 @@ function Inner({
       {variant === 'primary' && (
         <span
           aria-hidden
-          className="absolute inset-0 -z-10 rounded-full bg-brand-gradient opacity-60 blur-xl transition-opacity duration-500 group-hover:opacity-90"
+          className="absolute inset-0 -z-10 rounded-xl bg-brand-gradient opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-20"
         />
       )}
       {leftIcon && <span className="shrink-0">{leftIcon}</span>}
@@ -64,7 +63,7 @@ function Inner({
 }
 
 const baseClasses =
-  'group relative inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-violet/70 focus-visible:ring-offset-2 focus-visible:ring-offset-base-950 active:scale-[0.98]';
+  'motion-control group relative inline-flex items-center justify-center gap-2 rounded-xl font-semibold tracking-tight transition-[color,background-color,border-color,box-shadow] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg active:scale-[0.98] motion-reduce:transform-none';
 
 /* --------------------------- Button element --------------------------- */
 

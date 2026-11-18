@@ -1,6 +1,6 @@
-# Workflow Gallery design context
+# Toyslab portfolio design context
 
-The gallery preserves the existing soldevhassan.com dark palette and shared components. The site's light-theme variables remain available through its existing theme switcher.
+The portfolio uses the user-selected obsidian/cyan/emerald direction. The existing light-theme switcher, content, schemas, contact links, and interactions remain intact. All sections reuse the project's shared components.
 
 ## Sources
 
@@ -10,32 +10,34 @@ The gallery preserves the existing soldevhassan.com dark palette and shared comp
 - Project data and architecture schema: `content/projects.json` and `lib/projects.ts`.
 - Reused primitives: `GlassCard`, `Badge`, and `Reveal`.
 
-## Existing dark palette
+## Selected dark palette
 
 | Token | RGB | Role |
 | --- | --- | --- |
-| `--bg` | 5 6 10 | Page and screenshot background |
-| `--surface` | 10 11 20 | Cards and controls |
-| `--surface-hover` | 15 17 29 | Hover surfaces |
+| `--bg` | 5 8 17 | Obsidian page and screenshot background |
+| `--surface` | 11 17 32 | Elevated cards and controls |
+| `--surface-hover` | 16 24 41 | Hover surfaces |
 | `--border` | 51 65 85 | Neutral borders |
 | `--fg` | 241 245 249 | Primary text |
-| `--fg-muted` | 203 213 225 | Body text |
+| `--fg-muted` | 170 183 204 | Body text |
 | `--fg-subtle` | 148 163 184 | Secondary labels |
-| `--accent-primary` | 43 143 230 | Brand blue |
-| `--accent-sky` | 94 180 245 | Highlight and glow |
-| `--accent-success` | 47 158 68 | Outcomes and output nodes |
+| `--accent-primary` | 34 211 238 | Electric cyan |
+| `--accent-sky` | 103 232 249 | Highlight and focus |
+| `--accent-success` | 16 185 129 | Emerald outcomes and output nodes |
 
-The legacy cyan, violet, emerald, and fuchsia names map to these existing blue, sky, and green variables. They do not imply a separate palette.
+Legacy accent names map to these semantic tokens. Fixed `--brand-cyan` and `--brand-emerald` values keep filled buttons readable with dark lettering in both themes. The inline neural T-node logo, SVG favicon, and 180px PNG app icon share the selected gradient.
 
 ## Typography and spacing
 
 - Inter body text, Sora headings, JetBrains Mono stage indices.
 - Existing section gutters: 20px, increasing to 32px at `sm`.
-- Gallery gap: 32px; one column below `lg`, two columns at `lg`.
-- Card body padding: 24px, increasing to 28px at `md`.
-- Existing 16px card radius and 12px control/node radius.
+- Gallery gap: 24px on small screens, 32px at `lg`; one column below `lg`, two at `lg`.
+- Card body padding: 20px, increasing to 24px at `sm` and 28px at `lg`.
+- Shared 20px card radius, 24px command-center/CTA radius, and 12px control/node radius.
 - Interactive controls have a minimum 44px target and a token-based focus ring.
-- Existing gradient-border and glow/glow-strong tokens remain the hover treatment.
+- Surfaces use a white/8 border, subtle top reflection, and cyan/40 hover border. GlassCard surfaces avoid backdrop filters; navigation and the lightbox retain localized blur.
+- Section headings use an editorial title/description grid; metrics use tabular numerals.
+- Hero and gallery spotlights are static radial gradients at 8–10% opacity.
 
 ## Decisions
 
@@ -53,3 +55,7 @@ The legacy cyan, violet, emerald, and fuchsia names map to these existing blue, 
 
 The browser audit uses the production static export at 375px, 768px, and 1440px. Its generated screenshots and raw report are local artifacts under `artifacts/ui-audit/`. Final results are recorded in `docs/WORKFLOW_GALLERY_UI_AUDIT.md`.
 
+
+## Portfolio redesign verification
+
+The November 18 visual-only redesign is documented in [the UI redesign audit](../docs/UI_REDESIGN_AUDIT.md). The final static export passed 63 browser checks, preservation checks, TypeScript, lint, and component review. Original content, action handlers, routes, and data remain intact. Clean visual captures and raw reports live under `artifacts/ui-audit/redesign/`.

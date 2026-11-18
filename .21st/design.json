@@ -21,12 +21,19 @@
       "components/sections/Projects.tsx",
       "components/WorkflowDiagram.tsx",
       "components/WorkflowScreenshot.tsx",
-      "components/ScreenshotLightbox.tsx"
+      "components/ScreenshotLightbox.tsx",
+      "components/Logo.tsx",
+      "components/SectionHeading.tsx",
+      "components/GlowButton.tsx",
+      "components/ThemeToggle.tsx"
     ],
     "assets": [
       "public/projects/Multichannel AI Agent.png",
       "public/projects/Mu;ti-channel AI Agent CRM.png",
-      "public/projects/Mu;ti-channel AI Agent CRM customer.png"
+      "public/projects/Mu;ti-channel AI Agent CRM customer.png",
+      "public/toyslab-emblem.svg",
+      "public/favicon.svg",
+      "public/toyslab-icon.png"
     ],
     "instructions": []
   },
@@ -34,24 +41,24 @@
     "colorMode": "light-and-dark",
     "colors": {
       "--fg-muted": {
-        "value": "203 213 225",
-        "source": "app/globals.css"
+        "value": "170 183 204",
+        "source": "app/globals.css (.dark)"
       },
       "--border": {
         "value": "51 65 85",
-        "source": "app/globals.css"
+        "source": "app/globals.css (.dark)"
       },
       "--accent-primary": {
-        "value": "43 143 230",
-        "source": "app/globals.css"
+        "value": "34 211 238",
+        "source": "app/globals.css (.dark)"
       },
       "--accent-sky": {
-        "value": "94 180 245",
-        "source": "app/globals.css"
+        "value": "103 232 249",
+        "source": "app/globals.css (.dark)"
       },
       "--accent-success": {
-        "value": "47 158 68",
-        "source": "app/globals.css"
+        "value": "16 185 129",
+        "source": "app/globals.css (.dark)"
       },
       "--fg": {
         "value": "241 245 249",
@@ -62,16 +69,24 @@
         "source": "app/globals.css (.dark)"
       },
       "--bg": {
-        "value": "5 6 10",
+        "value": "5 8 17",
         "source": "app/globals.css (.dark)"
       },
       "--surface": {
-        "value": "10 11 20",
+        "value": "11 17 32",
         "source": "app/globals.css (.dark)"
       },
       "--surface-hover": {
-        "value": "15 17 29",
+        "value": "16 24 41",
         "source": "app/globals.css (.dark)"
+      },
+      "--brand-cyan": {
+        "value": "34 211 238",
+        "source": "app/globals.css (:root, fixed brand)"
+      },
+      "--brand-emerald": {
+        "value": "16 185 129",
+        "source": "app/globals.css (:root, fixed brand)"
       }
     },
     "typography": {
@@ -94,12 +109,12 @@
         "source": "app/globals.css (.section)"
       },
       "gallery-gap": {
-        "value": "32px",
-        "source": "components/sections/Projects.tsx (gap-8)"
+        "value": "24px; 32px at lg",
+        "source": "components/sections/Projects.tsx (gap-6 lg:gap-8)"
       },
       "card-padding": {
-        "value": "24px; 28px at md",
-        "source": "components/sections/Projects.tsx (p-6 md:p-7)"
+        "value": "20px; 24px at sm; 28px at lg",
+        "source": "components/sections/Projects.tsx (p-5 sm:p-6 lg:p-7)"
       },
       "touch-target": {
         "value": "44px minimum",
@@ -108,7 +123,7 @@
     },
     "radius": {
       "card": {
-        "value": "16px (rounded-2xl)",
+        "value": "20px (rounded-[1.25rem]); 24px command center and CTA",
         "source": "components/GlassCard.tsx"
       },
       "controls": {
@@ -118,15 +133,15 @@
     },
     "shadows": {
       "glow": {
-        "value": "0 0 40px -10px rgb(var(--accent-sky) / 0.5)",
+        "value": "0 4px 24px -6px rgb(var(--accent-primary) / 0.16)",
         "source": "tailwind.config.ts"
       },
       "glow-strong": {
-        "value": "0 0 60px -5px rgb(var(--accent-sky) / 0.65)",
+        "value": "0 6px 30px -6px rgb(var(--accent-primary) / 0.3)",
         "source": "tailwind.config.ts"
       },
       "gradient-border": {
-        "value": "Primary → sky → success; opacity 0.5 → 1 on hover",
+        "value": "White/8 default border; cyan/40 hover with restrained gradient reflection",
         "source": "app/globals.css (.gradient-border)"
       }
     },
@@ -148,7 +163,11 @@
       "GlassCard",
       "Badge",
       "Reveal",
-      "native dialog"
+      "native dialog",
+      "SectionHeading",
+      "GlowLink",
+      "Logo",
+      "ThemeToggle"
     ],
     "patterns": [
       "Project and ArchStage data drive every gallery card.",
@@ -157,7 +176,8 @@
   },
   "constraints": {
     "must": [
-      "Preserve the existing dark-mode RGB tokens, brand gradient border, glow shadows, Inter/Sora/JetBrains Mono typography, and spacing.",
+      "Use the user-selected obsidian #050811/#0B1120 surface palette and Toyslab #22D3EE-to-#10B981 identity through semantic tokens. Preserve Inter/Sora/JetBrains Mono typography and the existing light-theme switcher.",
+      "Preserve every project record, feature array, workflow description, business impact, service, biography, testimonial, contact detail, RC 9053103, external URL, hook, handler, tab behavior, feature expansion, and route.",
       "Use the existing Project and ArchStage TypeScript schemas; no workflow data migration.",
       "Keep diagrams within the card width at 375px, 768px, and 1440px, with aligned desktop grid rows.",
       "Use 44px controls, visible keyboard focus, semantic tabs, native modal focus containment, and reduced-motion support.",
@@ -165,11 +185,16 @@
     ],
     "avoid": [
       "Human illustrations and avatars.",
-      "New hardcoded replacement colors or unrelated UI dependencies.",
+      "Colors outside the selected semantic and fixed brand tokens; unrelated UI dependencies.",
       "Simulated live execution status or invented production metrics."
     ]
   },
   "decisions": [
+    {
+      "id": "toyslab-obsidian-redesign",
+      "decision": "Apply a complete visual-only redesign: shared neural T-node emblem, editorial section composition, framed AI command center and tabular telemetry, stationary workflow bento cards, cyan/emerald ambient radial backgrounds, 44px controls, and reduced-motion styling. Reuse GlassCard, Badge, Reveal, GlowLink, semantic gallery tabs, vertical diagrams, and the native screenshot dialog.",
+      "source": "Explicit user redesign direction and non-destructive guardrails, 2026-11-18"
+    },
     {
       "id": "workflow-gallery-architecture",
       "decision": "Preserve the selected dark portfolio identity and use system nodes, existing UI screenshots, and architectural role badges.",
@@ -214,6 +239,10 @@
     {
       "fact": "Reuse existing gallery primitives without adding production dependencies.",
       "source": "components/GlassCard.tsx; components/Badge.tsx; components/Reveal.tsx"
+    },
+    {
+      "fact": "63 browser checks passed at 375px, 768px, and 1440px; original data and handlers preserved; no production dependencies added.",
+      "source": "docs/UI_REDESIGN_AUDIT.md"
     }
   ],
   "generatedAt": "2026-11-17T21:02:39.137Z"

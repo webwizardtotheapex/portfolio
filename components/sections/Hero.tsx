@@ -17,20 +17,20 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16"
+      className="hero-spotlight relative isolate flex min-w-0 items-center overflow-clip pb-16 pt-32 sm:pb-20 sm:pt-40 lg:min-h-screen lg:pt-44"
     >
-      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-16 px-5 sm:px-8 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="mx-auto grid w-full min-w-0 max-w-7xl grid-cols-1 items-center gap-x-16 gap-y-12 px-5 sm:px-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         {/* ------------------------------ Copy ------------------------------ */}
-        <div className="text-center lg:text-left">
+        <div className="min-w-0 text-left">
           {/* Availability pill */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-white/70 backdrop-blur"
+            className="motion-reveal surface-reflection inline-flex max-w-full items-center gap-2.5 rounded-full border border-accent-success/20 bg-accent-success/[0.06] px-3.5 py-2.5 text-[11px] font-medium leading-relaxed text-fg-muted sm:text-xs"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-emerald opacity-75" />
+            <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-emerald opacity-30 motion-reduce:animate-none" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-emerald" />
             </span>
             Available for new automation projects
@@ -41,9 +41,9 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="mt-6 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-[0.25em] text-white/50 lg:justify-start"
+            className="motion-reveal mt-8 flex items-center gap-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-fg-subtle sm:text-xs"
           >
-            <Sparkles className="h-4 w-4 text-accent-violet" />
+            <Sparkles className="h-3.5 w-3.5 shrink-0 text-accent-primary" aria-hidden="true" />
             {personal.role}
           </motion.p>
 
@@ -52,12 +52,12 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4.2rem]"
+            className="motion-reveal mt-5 max-w-3xl font-display text-[2.5rem] font-semibold leading-[1.12] tracking-[-0.055em] text-fg sm:text-[3.25rem] md:text-[3.75rem] lg:text-[3.6rem] xl:text-[4rem]"
           >
             Building{' '}
             <span className="text-gradient">AI Automations</span> that save
             businesses{' '}
-            <span className="relative whitespace-nowrap">
+            <span className="relative">
               <span className="text-gradient">hundreds of hours</span>
             </span>{' '}
             every month.
@@ -68,7 +68,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.18 }}
-            className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/60 md:text-lg lg:mx-0"
+            className="motion-reveal mt-6 max-w-xl text-[15px] leading-[1.85] text-fg-muted sm:text-base"
           >
             I design intelligent workflow automations with n8n, OpenAI and AI
             agents — eliminating repetitive work, qualifying leads and syncing
@@ -80,7 +80,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.26 }}
-            className="mt-9 flex flex-col items-center gap-4 sm:flex-row lg:items-start lg:justify-start"
+            className="motion-reveal mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
           >
             <GlowLink
               href={contact.bookingUrl}
@@ -96,28 +96,29 @@ export function Hero() {
             </GlowLink>
           </motion.div>
 
-          {/* Stats */}
-          <motion.dl
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.34 }}
-            className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4 lg:max-w-lg"
-          >
-            {stats.map((s) => (
-              <div key={s.label} className="text-center lg:text-left">
-                <dt className="font-display text-2xl font-bold text-white sm:text-3xl">
-                  <AnimatedCounter value={Number(s.value)} suffix={s.suffix} />
-                </dt>
-                <dd className="mt-1 text-xs leading-tight text-white/50">
-                  {s.label}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
         </div>
 
         {/* ----------------------------- Visual ----------------------------- */}
         <HeroVisual />
+
+        {/* Shared telemetry strip; all metric values and counter logic stay intact. */}
+        <motion.dl
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.34 }}
+          className="hero-metrics motion-reveal grid min-w-0 grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08] sm:grid-cols-4 lg:col-span-2"
+        >
+          {stats.map((s) => (
+            <div key={s.label} className="text-left">
+              <dt className="font-display text-3xl font-semibold tracking-tight text-fg tabular-nums sm:text-[2.25rem]">
+                <AnimatedCounter value={Number(s.value)} suffix={s.suffix} />
+              </dt>
+              <dd className="mt-2 font-mono text-[10px] leading-relaxed text-fg-subtle sm:text-[11px]">
+                {s.label}
+              </dd>
+            </div>
+          ))}
+        </motion.dl>
       </div>
 
       {/* Scroll cue */}
@@ -127,14 +128,14 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/40 md:flex"
+        className="absolute bottom-5 left-1/2 hidden min-h-11 -translate-x-1/2 items-center gap-3 text-fg-subtle lg:flex"
       >
         <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
         <span className="flex h-9 w-5 items-start justify-center rounded-full border border-white/20 p-1">
           <motion.span
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 1.6, repeat: Infinity }}
-            className="h-1.5 w-1.5 rounded-full bg-brand-gradient"
+            className="scroll-cue-dot h-1.5 w-1.5 rounded-full bg-brand-gradient"
           />
         </span>
       </motion.a>
@@ -143,8 +144,8 @@ export function Hero() {
 }
 
 /**
- * The animated "automation engine" visual: a central AI core with a live
- * workflow card and a ring of orbiting integration logos that float.
+ * Framed command-center presentation of the existing AI core, integration
+ * orbit, and telemetry. This is a visual composition, not a live API feed.
  */
 function HeroVisual() {
   return (
@@ -152,78 +153,89 @@ function HeroVisual() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-      className="relative mx-auto hidden aspect-square w-full max-w-md items-center justify-center md:flex"
+      className="hero-engine motion-reveal relative mx-auto w-full min-w-0 max-w-lg overflow-hidden rounded-[1.5rem] border border-white/10"
     >
-      {/* Glow core */}
-      <div className="absolute h-56 w-56 rounded-full bg-brand-gradient opacity-30 blur-3xl animate-pulse-glow" />
+      <div className="flex min-h-14 items-center gap-3 border-b border-white/[0.08] bg-surface/50 px-4 sm:px-5">
+        <span className="flex gap-1.5" aria-hidden="true">
+          <span className="h-1.5 w-1.5 rounded-full bg-fg/25" />
+          <span className="h-1.5 w-1.5 rounded-full bg-fg/15" />
+          <span className="h-1.5 w-1.5 rounded-full bg-fg/10" />
+        </span>
+        <span className="font-mono text-xs font-medium text-fg-muted">AI Engine</span>
+        <span className="ml-auto rounded-md border border-accent-success/20 bg-accent-success/[0.06] px-2 py-1 font-mono text-[10px] text-accent-emerald">● running</span>
+      </div>
+
+      <div className="relative mx-auto flex aspect-square w-full max-w-[380px] items-center justify-center">
+        <div aria-hidden="true" className="hero-engine-canvas absolute inset-0" />
+        <div aria-hidden="true" className="engine-ambient absolute inset-6 rounded-full" />
 
       {/* Rotating orbit ring with integration logos */}
       <motion.div
-        className="absolute inset-4"
+        className="hero-orbit absolute inset-10 sm:inset-12"
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
       >
-        <div className="relative h-full w-full rounded-full border border-white/10">
+        <div className="relative h-full w-full rounded-full border border-white/[0.08]">
           {orbitIcons.map((Icon, i) => {
             const angle = (i / orbitIcons.length) * Math.PI * 2;
             const radius = 50; // percentage
             const left = 50 + radius * Math.cos(angle);
             const top = 50 + radius * Math.sin(angle);
             return (
-              <motion.div
+              <div
                 key={i}
-                className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border border-white/10 bg-base-800/80 text-white shadow-glass backdrop-blur"
+                className="absolute -translate-x-1/2 -translate-y-1/2"
                 style={{ left: `${left}%`, top: `${top}%` }}
+              >
+              <motion.div
+                className="hero-integration flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-surface-hover text-fg-muted shadow-glass sm:h-12 sm:w-12"
                 // Counter-rotate so the logos stay upright.
                 animate={{ rotate: -360 }}
                 transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
               >
-                <Icon className="h-6 w-6" />
+                <Icon className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
               </motion.div>
+              </div>
             );
           })}
         </div>
       </motion.div>
 
       {/* Inner dashed ring */}
-      <div className="absolute inset-16 rounded-full border border-dashed border-white/10" />
+      <div aria-hidden="true" className="absolute inset-[5.5rem] rounded-full border border-dashed border-accent-primary/15 sm:inset-24" />
 
       {/* Center core card */}
       <motion.div
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        className="glass-strong relative z-10 flex h-32 w-32 flex-col items-center justify-center gap-2 rounded-3xl shadow-glow"
+        className="engine-core relative z-10 flex h-24 w-24 items-center justify-center rounded-3xl border border-accent-primary/30 bg-surface shadow-glow sm:h-28 sm:w-28"
       >
-        <WorkflowIcon className="h-9 w-9 text-white" />
-        <span className="text-xs font-semibold text-white">AI Engine</span>
-        <span className="text-[10px] text-accent-emerald">● running</span>
+        <WorkflowIcon className="h-10 w-10 text-accent-primary" strokeWidth={1.25} aria-hidden="true" />
       </motion.div>
+      </div>
 
-      {/* Floating status card — top */}
+      <div className="grid grid-cols-2 gap-px border-t border-white/[0.08] bg-white/[0.08]">
+      {/* Original status values, presented as dashboard tiles. */}
       <motion.div
-        animate={{ y: [0, -12, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        className="glass absolute -top-2 left-0 z-20 rounded-2xl px-4 py-3 shadow-glass"
+        className="engine-status-card min-w-0 bg-surface px-5 py-4 sm:px-6 sm:py-5"
       >
-        <p className="text-[10px] uppercase tracking-wider text-white/40">
+        <p className="font-mono text-[10px] text-fg-subtle">
           Leads qualified
         </p>
-        <p className="font-display text-lg font-bold text-white">+1,284</p>
+        <p className="mt-2 font-mono text-2xl font-medium tracking-tight text-fg tabular-nums">+1,284</p>
       </motion.div>
 
-      {/* Floating status card — bottom */}
       <motion.div
-        animate={{ y: [0, 12, 0] }}
-        transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-        className="glass absolute -bottom-2 right-0 z-20 rounded-2xl px-4 py-3 shadow-glass"
+        className="engine-status-card min-w-0 bg-surface px-5 py-4 sm:px-6 sm:py-5"
       >
-        <p className="text-[10px] uppercase tracking-wider text-white/40">
+        <p className="font-mono text-[10px] text-fg-subtle">
           Time saved
         </p>
-        <p className="font-display text-lg font-bold text-accent-emerald">
+        <p className="mt-2 font-mono text-2xl font-medium tracking-tight text-accent-emerald tabular-nums">
           512 hrs
         </p>
       </motion.div>
+      </div>
     </motion.div>
   );
 }

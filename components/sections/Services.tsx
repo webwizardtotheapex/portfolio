@@ -15,6 +15,7 @@ export function Services() {
   return (
     <section id="services" className="section">
       <SectionHeading
+        centered={false}
         eyebrow="Services"
         title={
           <>
@@ -25,24 +26,24 @@ export function Services() {
         description="From a single workflow to a fully automated back office — here's how I help businesses run leaner and grow faster."
       />
 
-      <Stagger className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <Stagger className="mt-10 grid min-w-0 grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {services.map((service) => (
           <StaggerItem key={service.title}>
             <GlassCard
               gradientBorder
-              className="group relative h-full overflow-hidden p-6 transition-transform duration-300 hover:-translate-y-2"
+              className="group relative h-full overflow-hidden p-6"
             >
               {/* Hover glow that blooms from the corner */}
-              <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-gradient opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-30" />
+              <div className="service-ambient pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
               <div className="relative">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-accent-cyan transition-all duration-300 group-hover:bg-brand-gradient group-hover:text-white group-hover:shadow-glow">
-                  <service.icon className="h-6 w-6" />
+                <span className="icon-container h-12 w-12">
+                  <service.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <h3 className="mt-5 font-display text-lg font-semibold text-white">
+                <h3 className="mt-6 font-display text-base font-semibold leading-relaxed tracking-tight text-fg">
                   {service.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">
+                <p className="mt-3 text-[13px] leading-[1.85] text-fg-muted">
                   {service.description}
                 </p>
               </div>
@@ -53,8 +54,8 @@ export function Services() {
 
       {/* Inline CTA */}
       <Reveal delay={0.1}>
-        <div className="mt-12 flex flex-col items-center gap-4 text-center">
-          <p className="text-white/60">
+        <div className="mt-8 flex flex-col items-start justify-between gap-5 rounded-xl border border-white/[0.08] bg-surface/40 p-5 sm:flex-row sm:items-center sm:p-6">
+          <p className="text-sm leading-relaxed text-fg-muted">
             Not sure which automation you need?{' '}
             <span className="text-white">Let&apos;s figure it out together.</span>
           </p>

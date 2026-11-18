@@ -73,10 +73,10 @@ export function ScreenshotLightbox({
       onCancel={(event) => { event.preventDefault(); onClose(); }}
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
-      className="workflow-dialog m-auto max-h-[calc(100dvh_-_2rem)] w-[calc(100%_-_2rem)] max-w-6xl overflow-hidden rounded-2xl border border-border bg-surface p-0 text-fg shadow-glow"
+      className="workflow-dialog m-auto max-h-[calc(100dvh_-_2rem)] w-[calc(100%_-_2rem)] max-w-6xl overflow-hidden rounded-[1.5rem] border border-white/10 bg-surface p-0 text-fg shadow-glass"
     >
       <div className="flex max-h-[calc(100dvh_-_2rem)] min-w-0 flex-col">
-        <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border/70 p-4 sm:p-5">
+        <div className="flex shrink-0 items-start justify-between gap-3 border-b border-white/[0.08] p-4 sm:p-5">
           <h2 id={titleId} className="min-w-0 break-words font-display text-sm font-semibold leading-relaxed sm:text-base">{project.title}</h2>
           <button ref={closeRef} type="button" onClick={onClose} aria-label="Close screenshot preview" className="workflow-control shrink-0">
             <X className="h-5 w-5" aria-hidden="true" />

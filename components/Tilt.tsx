@@ -40,7 +40,7 @@ export function Tilt({ children, className, max = 10, glare = true }: TiltProps)
   const glareBackground = useTransform(
     [glareX, glareY],
     ([gx, gy]) =>
-      `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.12), transparent 45%)`
+      `radial-gradient(circle at ${gx} ${gy}, var(--tilt-glare-color), transparent 45%)`
   );
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {

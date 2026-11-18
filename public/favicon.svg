@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Toyslab Tech brand mark: atom orbits (blue) + gear core (green) -->
-  <rect width="64" height="64" rx="14" fill="#ffffff"/>
-  <g fill="none" stroke="#0860b8" stroke-width="3.2">
-    <ellipse cx="32" cy="32" rx="23" ry="9.5"/>
-    <ellipse cx="32" cy="32" rx="23" ry="9.5" transform="rotate(60 32 32)"/>
-    <ellipse cx="32" cy="32" rx="23" ry="9.5" transform="rotate(120 32 32)"/>
+  <defs>
+    <linearGradient id="neural-t" x1="10" y1="12" x2="52" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22D3EE"/><stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#050811"/>
+  <rect x="0.5" y="0.5" width="63" height="63" rx="13.5" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+  <g fill="none" stroke="url(#neural-t)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 14H52M32 14V52M12 14L20 30H44L52 14M32 30L21 42M32 30L43 42"/>
   </g>
-  <!-- electrons -->
-  <circle cx="55" cy="32" r="2.6" fill="#0860b8"/>
-  <circle cx="20.5" cy="13.2" r="2.6" fill="#0860b8"/>
-  <circle cx="20.5" cy="50.8" r="2.6" fill="#0860b8"/>
-  <!-- gear core -->
-  <circle cx="32" cy="32" r="8.5" fill="#184008"/>
-  <circle cx="32" cy="32" r="3.2" fill="#ffffff"/>
+  <g fill="url(#neural-t)">
+    <circle cx="12" cy="14" r="4"/><circle cx="32" cy="14" r="4"/><circle cx="52" cy="14" r="4"/>
+    <circle cx="32" cy="30" r="4"/><circle cx="21" cy="42" r="3"/><circle cx="43" cy="42" r="3"/><circle cx="32" cy="52" r="4"/>
+  </g>
 </svg>

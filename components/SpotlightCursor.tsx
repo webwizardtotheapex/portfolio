@@ -36,15 +36,11 @@ export function SpotlightCursor() {
   if (!enabled) return null;
 
   return (
-    <motion.div
-      aria-hidden
-      className="pointer-events-none fixed left-0 top-0 -z-10 h-[600px] w-[600px] rounded-full opacity-40 mix-blend-screen"
-      style={{
-        x: springX,
-        y: springY,
-        background:
-          'radial-gradient(circle, rgba(139,92,246,0.28) 0%, rgba(34,211,238,0.12) 35%, transparent 70%)',
-      }}
-    />
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <motion.div
+        className="cursor-spotlight absolute left-0 top-0 rounded-full opacity-20"
+        style={{ x: springX, y: springY }}
+      />
+    </div>
   );
 }

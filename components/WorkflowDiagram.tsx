@@ -83,11 +83,11 @@ export function WorkflowDiagram({ stages }: { stages: ArchStage[] }) {
 
   return (
     <div className="flex h-full min-h-0 min-w-0 flex-col">
-      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border/60 bg-surface/80 px-4">
+      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-white/[0.08] bg-surface/90 px-3 sm:px-4">
         <p className="flex min-w-0 items-center gap-2 text-xs font-semibold text-fg-muted">
           <Network className="h-4 w-4 shrink-0 text-accent-sky" aria-hidden="true" />
           Architecture
-          <span className="rounded-full border border-border px-2 py-1 font-mono text-[10px] text-fg-muted dark:text-fg-subtle">
+          <span className="rounded-md border border-white/10 bg-bg/50 px-2 py-1 font-mono text-[10px] text-fg-subtle tabular-nums">
             {stages.length} stages
           </span>
         </p>
@@ -135,16 +135,16 @@ export function WorkflowDiagram({ stages }: { stages: ArchStage[] }) {
                         aria-controls={detailId}
                         onClick={() => setSelected(active ? null : { stage: stageIndex, node: nodeIndex })}
                         className={cn(
-                          'workflow-focus group/node flex min-h-20 min-w-0 flex-col items-start justify-start gap-2 rounded-xl border p-2.5 text-left transition-[border-color,background-color,box-shadow] duration-200 hover:border-accent-sky/60 hover:shadow-glow motion-reduce:transition-none',
+                          'workflow-focus surface-reflection group/node flex min-h-20 min-w-0 flex-col items-start justify-start gap-2 rounded-xl border p-2.5 text-left transition-[border-color,background-color,box-shadow] duration-200 hover:border-accent-primary/40 hover:shadow-glow motion-reduce:transition-none',
                           styles.surface,
                           active && 'border-accent-sky bg-accent-sky/15 shadow-glow'
                         )}
                       >
                         <span className="flex w-full min-w-0 flex-wrap items-center gap-1.5">
                           <node.icon className={cn('h-4 w-4 shrink-0', styles.icon)} aria-hidden="true" />
-                          <span className="rounded-full border border-border/70 bg-bg/50 px-1.5 py-1 text-[10px] font-medium leading-none text-fg-muted">{details.role}</span>
+                          <span className="rounded-md border border-white/[0.08] bg-bg/50 px-1.5 py-1 font-mono text-[9px] font-medium leading-none text-fg-muted">{details.role}</span>
                         </span>
-                        <span className="min-w-0 break-words text-xs font-medium leading-relaxed text-fg">{node.label}</span>
+                        <span className="w-full min-w-0 break-words text-xs font-medium leading-relaxed text-fg">{node.label}</span>
                       </button>
                     );
                   })}
@@ -173,7 +173,7 @@ export function WorkflowDiagram({ stages }: { stages: ArchStage[] }) {
         </ol>
       </div>
 
-      <div className="flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1.5 border-t border-border/60 bg-surface/80 px-3 py-2.5">
+      <div className="flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1.5 border-t border-white/[0.08] bg-surface/90 px-3 py-2.5">
         {(Object.keys(KIND_STYLES) as ArchKind[]).map((kind) => (
           <span key={kind} className="inline-flex items-center gap-1.5 text-[10px] font-medium text-fg-muted">
             <span className={cn('h-2 w-2 rounded-full border', KIND_STYLES[kind].surface)} aria-hidden="true" />

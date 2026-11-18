@@ -51,7 +51,7 @@ export function WorkflowScreenshot({
         draggable={false}
         onLoad={() => setLoaded(true)}
         onError={() => setFailed(true)}
-        className={cn('object-contain transition-opacity duration-200 motion-reduce:transition-none', loaded ? 'opacity-100' : 'opacity-0')}
+        className={cn('workflow-screenshot object-contain p-2 transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none sm:p-3', loaded ? 'opacity-100' : 'opacity-0')}
       />
     </>
   );

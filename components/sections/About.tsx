@@ -31,6 +31,7 @@ export function About() {
   return (
     <section id="about" className="section">
       <SectionHeading
+        centered={false}
         eyebrow="About Me"
         title={
           <>
@@ -41,15 +42,15 @@ export function About() {
         description="I help businesses replace repetitive work with reliable, AI-powered automation — so operations run themselves and teams do their best work."
       />
 
-      <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <div className="mt-10 grid min-w-0 grid-cols-1 gap-6 sm:mt-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-stretch">
         {/* Bio + goal */}
         <Reveal direction="right">
-          <GlassCard strong className="h-full p-8 md:p-10">
+          <GlassCard strong className="h-full p-6 sm:p-8 lg:p-9">
             <div className="space-y-5">
               {personal.bioParagraphs.map((p, i) => (
                 <p
                   key={i}
-                  className="text-base leading-relaxed text-white/70 md:text-lg"
+                  className="text-[15px] leading-[1.9] text-fg-muted"
                 >
                   {p}
                 </p>
@@ -57,53 +58,53 @@ export function About() {
             </div>
 
             {/* Goal callout */}
-            <div className="mt-8 flex items-start gap-4 rounded-2xl border border-accent-violet/20 bg-accent-violet/5 p-5">
-              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
-                <Target className="h-5 w-5 text-white" />
+            <div className="mt-8 flex items-start gap-3.5 rounded-xl border border-accent-primary/15 bg-accent-primary/[0.04] p-4 sm:p-5">
+              <span className="icon-container mt-0.5 h-9 w-9">
+                <Target className="h-4 w-4" aria-hidden="true" />
               </span>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-white/50">
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-accent-primary">
                   My Goal
                 </p>
-                <p className="mt-1 text-base font-medium text-white">
+                <p className="mt-2 text-sm font-medium leading-[1.8] text-fg">
                   {personal.goal}
                 </p>
               </div>
             </div>
 
             {/* Company badge */}
-            <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:flex-row sm:items-center">
-              <Logo heightClass="h-10" />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/45">
+            <div className="mt-6 flex flex-col gap-4 rounded-xl border border-white/[0.08] bg-bg/35 p-4 xl:flex-row xl:items-center">
+              <Logo heightClass="h-8" chip={false} />
+              <div className="min-w-0">
+                <p className="font-mono text-[10px] font-medium uppercase tracking-wide text-fg-subtle">
                   Founder
                 </p>
-                <p className="mt-0.5 text-base font-medium text-white">
+                <p className="mt-1 text-sm font-medium leading-relaxed text-fg">
                   Toyslab Tech and Innovations Ltd.
                 </p>
-                <p className="text-xs text-white/40">RC 9053103</p>
+                <p className="mt-1 font-mono text-[10px] text-fg-subtle">RC 9053103</p>
               </div>
             </div>
           </GlassCard>
         </Reveal>
 
         {/* Highlights + experience */}
-        <div className="flex flex-col gap-6">
+        <div className="flex min-w-0 flex-col gap-4">
           <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-1">
             {highlights.map((h) => (
               <StaggerItem key={h.title}>
                 <GlassCard
                   gradientBorder
-                  className="group flex items-start gap-4 p-6 transition-transform duration-300 hover:-translate-y-1"
+                  className="group flex h-full items-start gap-4 p-5 sm:p-6"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-accent-cyan transition-colors group-hover:text-white">
-                    <h.icon className="h-5 w-5" />
+                  <span className="icon-container h-11 w-11">
+                    <h.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div>
-                    <h3 className="font-display text-base font-semibold text-white">
+                    <h3 className="font-display text-[15px] font-semibold tracking-tight text-fg">
                       {h.title}
                     </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-white/60">
+                    <p className="mt-2 text-[13px] leading-[1.8] text-fg-muted">
                       {h.text}
                     </p>
                   </div>
@@ -115,21 +116,21 @@ export function About() {
           {/* Experience card */}
           {experiences.map((exp) => (
             <Reveal key={exp.role} delay={0.1}>
-              <GlassCard strong className="p-6">
+              <GlassCard strong className="p-5 sm:p-6">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gradient shadow-glow">
-                    <exp.icon className="h-5 w-5 text-white" />
+                  <span className="icon-container h-11 w-11">
+                    <exp.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div>
                     <h3 className="font-display text-base font-bold text-white">
                       {exp.role}
                     </h3>
-                    <p className="text-xs text-accent-emerald">
+                    <p className="mt-1 font-mono text-[10px] text-accent-emerald">
                       Currently building
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-white/60">
+                <p className="mt-4 text-[13px] leading-[1.8] text-fg-muted">
                   {exp.summary}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">

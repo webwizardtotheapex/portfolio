@@ -33,7 +33,7 @@ export function GlassCard({
   return (
     <div
       className={cn(
-        'rounded-2xl',
+        'min-w-0 rounded-[1.25rem]',
         strong ? 'glass-strong' : 'glass',
         gradientBorder && 'gradient-border',
         className

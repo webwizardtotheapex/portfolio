@@ -53,19 +53,20 @@ export function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-3 sm:pt-4"
+      className="motion-reveal fixed inset-x-0 top-0 z-50 flex justify-center px-5 pt-3 sm:px-8 sm:pt-4"
     >
       <nav
+        aria-label="Main navigation"
         className={cn(
-          'flex w-full max-w-6xl items-center justify-between rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-6',
+          'flex w-full min-w-0 max-w-7xl items-center justify-between gap-3 rounded-2xl border px-3 py-2.5 backdrop-blur-xl transition-[border-color,background-color,box-shadow] duration-300 sm:px-5',
           scrolled
-            ? 'border-white/10 bg-base-900/70 shadow-glass backdrop-blur-xl'
-            : 'border-transparent bg-transparent'
+            ? 'border-white/10 bg-bg/95 shadow-glass'
+            : 'border-white/[0.08] bg-surface/70'
         )}
       >
         {/* Brand / logo */}
-        <a href="#home" aria-label="Toyslab Tech — home" className="group flex items-center">
-          <Logo heightClass="h-8 sm:h-9" priority />
+        <a href="#home" aria-label="Toyslab Tech — home" className="group flex min-h-11 min-w-0 items-center rounded-xl">
+          <Logo heightClass="h-7 sm:h-8" priority />
         </a>
 
         {/* Desktop links */}
@@ -77,15 +78,16 @@ export function Navbar() {
               <li key={item.href}>
                 <a
                   href={item.href}
+                  aria-current={isActive ? 'location' : undefined}
                   className={cn(
-                    'relative rounded-full px-4 py-2 text-sm font-medium transition-colors',
-                    isActive ? 'text-white' : 'text-white/60 hover:text-white'
+                    'relative inline-flex min-h-11 items-center rounded-lg px-3 text-xs font-medium transition-colors xl:px-4 xl:text-sm',
+                    isActive ? 'text-fg' : 'text-fg-subtle hover:text-fg'
                   )}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 -z-10 rounded-full bg-white/10"
+                      className="motion-reveal absolute inset-x-0 inset-y-1 -z-10 rounded-lg border border-white/[0.06] bg-white/[0.04]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -105,13 +107,14 @@ export function Navbar() {
         </div>
 
         {/* Mobile: theme toggle + menu button */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex shrink-0 items-center gap-1.5 lg:hidden">
           <ThemeToggle />
           <button
             onClick={() => setOpen((v) => !v)}
-            className="glass flex h-10 w-10 items-center justify-center rounded-xl text-white"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-surface/80 text-fg transition-colors hover:border-accent-primary/40 hover:bg-surface-hover"
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -122,20 +125,21 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            id="mobile-navigation"
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.25 }}
-            className="absolute inset-x-4 top-[4.75rem] z-40 lg:hidden"
+            className="motion-reveal absolute inset-x-5 top-[5.25rem] z-40 sm:inset-x-8 lg:hidden"
           >
-            <div className="glass-strong rounded-2xl p-3 shadow-glass">
+            <div className="max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-2xl border border-white/10 bg-surface/95 p-3 shadow-glass backdrop-blur-xl">
               <ul className="flex flex-col">
                 {navItems.map((item) => (
                   <li key={item.href}>
                     <a
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="block rounded-xl px-4 py-3 text-sm font-medium text-white/75 transition-colors hover:bg-white/5 hover:text-white"
+                      className="flex min-h-12 items-center rounded-xl px-4 py-3 text-sm font-medium text-fg-muted transition-colors hover:bg-accent-primary/[0.06] hover:text-fg"
                     >
                       {item.label}
                     </a>

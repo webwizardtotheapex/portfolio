@@ -14,39 +14,39 @@ export function CTA() {
   return (
     <section className="section !py-20">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 px-6 py-16 text-center sm:px-12 md:py-24">
+        <div className="surface-reflection relative isolate overflow-hidden rounded-[1.5rem] border border-white/10 bg-surface/70 px-6 py-14 text-center sm:px-12 md:py-20">
           {/* Animated gradient backdrop */}
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-accent-violet/25 via-base-800/40 to-accent-cyan/25" />
-          <div className="absolute inset-0 -z-10 bg-grid-pattern bg-[size:36px_36px] opacity-30 mask-radial" />
+          <div className="cta-ambient absolute inset-0 -z-10" />
+          <div className="absolute inset-0 -z-10 bg-grid-pattern bg-[size:48px_48px] opacity-10 mask-radial" />
 
           {/* Floating glow orbs */}
           <motion.div
             animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
             transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -left-16 top-0 h-64 w-64 rounded-full bg-accent-violet/30 blur-3xl"
+            className="cta-orb cta-orb-cyan pointer-events-none absolute -left-16 top-0 -z-10 h-64 w-64 rounded-full"
           />
           <motion.div
             animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
             transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-accent-cyan/30 blur-3xl"
+            className="cta-orb cta-orb-emerald pointer-events-none absolute -right-16 bottom-0 -z-10 h-64 w-64 rounded-full"
           />
 
           <span className="eyebrow">
-            <CalendarClock className="h-3.5 w-3.5" />
+            <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
             Let&apos;s build together
           </span>
 
-          <h2 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">
+          <h2 className="mx-auto mt-6 max-w-2xl text-balance font-display text-3xl font-semibold leading-[1.2] tracking-[-0.045em] text-fg sm:text-4xl md:text-5xl">
             Ready to <span className="text-gradient">automate</span> your
             business?
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-[1.85] text-fg-muted sm:text-base">
             Let&apos;s build intelligent workflows that save time and increase
             revenue.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mx-auto mt-8 flex max-w-md flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
             <GlowLink
               href={contact.bookingUrl}
               target="_blank"

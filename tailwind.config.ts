@@ -3,7 +3,7 @@ import type { Config } from 'tailwindcss';
 /**
  * Tailwind design system for the portfolio.
  * Theme-aware via CSS variables that flip on the `.dark` class. The palette
- * blends with the Toyslab logo (blue + green), preserving the premium feel.
+ * uses the Toyslab cyan-to-emerald identity on obsidian surfaces.
  */
 const config: Config = {
   darkMode: 'class',
@@ -24,11 +24,15 @@ const config: Config = {
         'surface-hover': 'rgb(var(--surface-hover) / <alpha-value>)',
         border: 'rgb(var(--border) / <alpha-value>)',
 
-        /* Brand accents — logo-matched blue + green. */
+        /* Theme-aware accents; fixed brand colors retain button contrast. */
         accent: {
           primary: 'rgb(var(--accent-primary) / <alpha-value>)',
           sky: 'rgb(var(--accent-sky) / <alpha-value>)',
           success: 'rgb(var(--accent-success) / <alpha-value>)',
+        },
+        brand: {
+          cyan: 'rgb(var(--brand-cyan) / <alpha-value>)',
+          emerald: 'rgb(var(--brand-emerald) / <alpha-value>)',
         },
 
         /* Legacy base-* tokens remapped for compat (most files use these). */
@@ -48,23 +52,23 @@ const config: Config = {
            gradient buttons, logo chip): snow = always white, ink = always
            dark. These never flip with the theme. */
         snow: '#ffffff',
-        ink: '#0a0b14',
+        ink: '#050811',
       },
       fontFamily: {
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+        sans: ['var(--font-sans, system-ui)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display, system-ui)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono, ui-monospace)', 'ui-monospace', 'monospace'],
       },
       backgroundImage: {
         'brand-gradient':
-          'linear-gradient(120deg, rgb(var(--accent-primary)), rgb(var(--accent-sky)), rgb(var(--accent-success)))',
+          'linear-gradient(110deg, rgb(var(--brand-cyan)), rgb(var(--brand-emerald)))',
         'grid-pattern':
           'linear-gradient(to right, rgb(var(--border) / 0.4) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--border) / 0.4) 1px, transparent 1px)',
       },
       boxShadow: {
-        glow: '0 0 40px -10px rgb(var(--accent-sky) / 0.5)',
-        'glow-cyan': '0 0 40px -8px rgb(var(--accent-primary) / 0.55)',
-        'glow-strong': '0 0 60px -5px rgb(var(--accent-sky) / 0.65)',
+        glow: '0 4px 24px -6px rgb(var(--accent-primary) / 0.16)',
+        'glow-cyan': '0 4px 24px -6px rgb(var(--accent-primary) / 0.2)',
+        'glow-strong': '0 6px 30px -6px rgb(var(--accent-primary) / 0.3)',
         glass: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       },
       keyframes: {

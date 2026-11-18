@@ -63,7 +63,7 @@ export function Reveal({
 
   return (
     <motion.div
-      className={className}
+      className={['motion-reveal', className].filter(Boolean).join(' ')}
       variants={variants}
       initial="hidden"
       whileInView="visible"
@@ -91,7 +91,7 @@ export function Stagger({
 }) {
   return (
     <motion.div
-      className={className}
+      className={['motion-reveal', className].filter(Boolean).join(' ')}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-60px' }}
@@ -118,7 +118,7 @@ export function StaggerItem({
 }) {
   return (
     <motion.div
-      className={className}
+      className={['motion-reveal', className].filter(Boolean).join(' ')}
       variants={{
         hidden: { opacity: 0, y: distance },
         visible: {

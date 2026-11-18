@@ -15,7 +15,7 @@ export function Badge({ children, dot, className, ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/75 backdrop-blur transition-colors hover:border-white/20 hover:text-white',
+        'inline-flex max-w-full items-center gap-1.5 rounded-md border border-white/[0.08] bg-white/[0.025] px-2.5 py-1.5 font-mono text-[10px] font-medium leading-relaxed text-fg-muted transition-colors hover:border-accent-primary/30 hover:text-fg',
         className
       )}
       {...props}

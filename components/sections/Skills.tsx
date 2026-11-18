@@ -26,6 +26,7 @@ export function Skills() {
   return (
     <section id="skills" className="section">
       <SectionHeading
+        centered={false}
         eyebrow="Tech Stack"
         title={
           <>
@@ -38,22 +39,24 @@ export function Skills() {
 
       {/* Category filter */}
       <Reveal>
-        <div className="mt-12 flex flex-wrap justify-center gap-2">
+        <div role="group" aria-label="Filter technologies by category" className="mt-10 flex flex-wrap gap-1.5 rounded-xl border border-white/[0.08] bg-surface/50 p-1.5 sm:mt-12 sm:w-fit">
           {filters.map((f) => (
             <button
               key={f}
+              type="button"
+              aria-pressed={filter === f}
               onClick={() => setFilter(f)}
               className={cn(
-                'relative rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+                'relative inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border px-3.5 py-2 text-xs font-medium transition-colors sm:px-4',
                 filter === f
-                  ? 'border-transparent text-white'
-                  : 'border-white/10 text-white/55 hover:border-white/25 hover:text-white'
+                  ? 'border-accent-primary/25 text-accent-primary'
+                  : 'border-transparent text-fg-subtle hover:bg-white/[0.03] hover:text-fg'
               )}
             >
               {filter === f && (
                 <motion.span
                   layoutId="skill-filter-pill"
-                  className="absolute inset-0 -z-10 rounded-full bg-brand-gradient shadow-glow"
+                  className="motion-reveal absolute inset-0 -z-10 rounded-lg bg-accent-primary/[0.08]"
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                 />
               )}
@@ -66,12 +69,13 @@ export function Skills() {
       {/* Skill grid */}
       <motion.div
         layout
-        className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+        className="mt-6 grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
       >
         <AnimatePresence mode="popLayout">
           {visible.map((skill) => (
             <motion.div
               key={skill.name}
+              className="motion-reveal"
               layout
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -80,12 +84,12 @@ export function Skills() {
             >
               <GlassCard
                 gradientBorder
-                className="group flex h-full flex-col items-center gap-3 p-5 text-center transition-transform duration-300 hover:-translate-y-1.5"
+                className="group flex h-full min-h-32 flex-col items-center justify-center gap-3 p-4 text-center sm:p-5"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-2xl text-white/80 transition-all duration-300 group-hover:text-white group-hover:shadow-glow">
-                  <skill.icon className="h-6 w-6" />
+                <span className="icon-container h-11 w-11 text-fg-muted">
+                  <skill.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <span className="text-sm font-medium text-white/80 group-hover:text-white">
+                <span className="min-w-0 text-xs font-medium leading-relaxed text-fg-muted group-hover:text-fg sm:text-sm">
                   {skill.name}
                 </span>
               </GlassCard>
@@ -95,16 +99,16 @@ export function Skills() {
       </motion.div>
 
       {/* Infinite marquee ticker of the whole stack */}
-      <div className="relative mt-14 overflow-hidden">
+      <div aria-hidden="true" className="stack-marquee relative mt-10 overflow-hidden border-y border-white/[0.06] py-6">
         {/* Edge fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-base-950 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-base-950 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-base-950 to-transparent sm:w-16" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-base-950 to-transparent sm:w-16" />
 
-        <div className="flex w-max animate-marquee gap-3">
+        <div className="marquee-track flex w-max animate-marquee gap-3">
           {[...skills, ...skills].map((skill, i) => (
             <span
               key={`${skill.name}-${i}`}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white/60 backdrop-blur"
+              className="inline-flex items-center gap-2.5 rounded-lg border border-white/[0.08] bg-surface/75 px-4 py-2.5 font-mono text-[11px] text-fg-muted"
             >
               <skill.icon className="h-4 w-4" />
               {skill.name}

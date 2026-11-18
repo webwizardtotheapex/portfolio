@@ -103,12 +103,12 @@ export const metadata: Metadata = {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
-    apple: [{ url: '/logo.png' }],
+    apple: [{ url: '/toyslab-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#05060a',
+  themeColor: '#050811',
   width: 'device-width',
   initialScale: 1,
 };

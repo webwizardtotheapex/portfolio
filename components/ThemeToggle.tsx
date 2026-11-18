@@ -20,7 +20,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Light mode' : 'Dark mode'}
       className={cn(
-        'relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-border/50 bg-surface/40 text-fg-muted backdrop-blur transition-colors hover:text-fg hover:border-accent-primary/50',
+        'relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/[0.08] bg-surface/50 text-fg-subtle transition-colors hover:text-fg hover:border-accent-primary/40',
         className
       )}
     >
@@ -29,7 +29,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         initial={{ y: 12, opacity: 0, rotate: -30 }}
         animate={{ y: 0, opacity: 1, rotate: 0 }}
         transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-        className="flex items-center justify-center"
+        className="motion-reveal flex items-center justify-center"
       >
         {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
       </motion.span>

@@ -16,6 +16,7 @@ export function Contact() {
   return (
     <section id="contact" className="section">
       <SectionHeading
+        centered={false}
         eyebrow="Get In Touch"
         title={
           <>
@@ -26,21 +27,21 @@ export function Contact() {
         description="Have a workflow in mind or a process you're tired of doing by hand? Reach out — I usually reply within a day."
       />
 
-      <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1fr]">
+      <div className="mt-10 grid min-w-0 grid-cols-1 gap-6 sm:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         {/* Primary contact card */}
         <Reveal direction="right">
-          <GlassCard strong className="flex h-full flex-col justify-between p-8 md:p-10">
+          <GlassCard strong className="flex h-full min-w-0 flex-col justify-between p-6 sm:p-8 lg:p-9">
             <div>
-              <h3 className="font-display text-2xl font-bold text-white">
+              <h3 className="font-display text-2xl font-semibold tracking-tight text-fg">
                 Start a conversation
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">
+              <p className="mt-3 text-sm leading-[1.85] text-fg-muted">
                 Tell me about your business and the tasks eating up your team&apos;s
                 time. I&apos;ll show you exactly what can be automated.
               </p>
 
               {/* Direct methods */}
-              <div className="mt-8 space-y-4">
+              <div className="mt-7 space-y-3">
                 <ContactRow
                   icon={<Mail className="h-5 w-5" />}
                   label="Email"
@@ -83,25 +84,25 @@ export function Contact() {
         </Reveal>
 
         {/* Social grid */}
-        <Stagger className="grid grid-cols-2 gap-4 sm:grid-cols-2">
+        <Stagger className="grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2 lg:gap-4">
           {socials.map((s) => (
             <StaggerItem key={s.label} className="h-full">
               <a
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block h-full"
+                className="group block h-full min-w-0 rounded-[1.25rem]"
               >
                 <GlassCard
                   gradientBorder
-                  className="flex h-full flex-col justify-between p-6 transition-transform duration-300 hover:-translate-y-1.5"
+                  className="flex h-full min-w-0 flex-col justify-between p-4 sm:p-5 lg:p-6"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/80 transition-all duration-300 group-hover:bg-brand-gradient group-hover:text-white group-hover:shadow-glow">
-                    <s.icon className="h-5 w-5" />
+                  <span className="icon-container h-11 w-11 text-fg-muted">
+                    <s.icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <div className="mt-6">
+                  <div className="mt-5 min-w-0">
                     <p className="text-sm font-semibold text-white">{s.label}</p>
-                    <p className="mt-0.5 truncate text-xs text-white/50">
+                    <p className="mt-1 text-[10px] leading-[1.75] text-fg-subtle [overflow-wrap:anywhere] sm:text-[11px]">
                       {s.handle}
                     </p>
                   </div>
@@ -128,13 +129,13 @@ function ContactRow({
   href?: string;
 }) {
   const content = (
-    <div className="flex items-center gap-4">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-accent-cyan">
+    <div className="flex min-w-0 items-center gap-3.5 py-2">
+      <span className="icon-container h-11 w-11">
         {icon}
       </span>
       <div className="min-w-0">
-        <p className="text-xs uppercase tracking-wide text-white/40">{label}</p>
-        <p className="truncate text-sm font-medium text-white">{value}</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.1em] text-fg-subtle">{label}</p>
+        <p className="mt-1 text-sm font-medium leading-relaxed text-fg [overflow-wrap:anywhere]">{value}</p>
       </div>
     </div>
   );
@@ -146,7 +147,7 @@ function ContactRow({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block rounded-xl transition-colors hover:bg-white/5"
+      className="block min-h-11 rounded-xl transition-colors hover:bg-white/[0.03]"
     >
       {content}
     </a>

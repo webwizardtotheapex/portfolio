@@ -53,7 +53,7 @@ export function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="motion-reveal fixed inset-x-0 top-0 z-50 flex justify-center px-5 pt-3 sm:px-8 sm:pt-4"
+      className="motion-reveal fixed inset-x-0 top-0 z-[60] flex justify-center px-5 pt-3 sm:px-8 sm:pt-4"
     >
       <nav
         aria-label="Main navigation"

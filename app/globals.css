@@ -89,6 +89,29 @@ button:disabled {
   cursor: default;
 }
 
+/* Keep call controls clear of phone home indicators and footer actions.
+   Outside layers so safe-area offsets override bottom-6/right-6 utilities. */
+.voice-agent-widget {
+  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  right: calc(1.5rem + env(safe-area-inset-right, 0px));
+  max-width: calc(100vw - 3rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  max-height: calc(100dvh - 7rem - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+}
+
+.voice-agent-clearance {
+  padding-bottom: calc(12rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Keep Google's visible verification badge above the floating call controls. */
+.grecaptcha-badge {
+  bottom: calc(12rem + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+body:has(.voice-agent-widget [role='alert']) .grecaptcha-badge {
+  bottom: calc(20rem + env(safe-area-inset-bottom, 0px)) !important;
+}
+
 /* Respect users who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   *,

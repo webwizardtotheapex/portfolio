@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Sora, JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { VoiceAgentButton } from '@/components/VoiceAgentButton';
 import './globals.css';
 
 /* -------------------------------------------------------------------------- */
@@ -180,7 +181,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <VoiceAgentButton />
+        </ThemeProvider>
       </body>
     </html>
   );

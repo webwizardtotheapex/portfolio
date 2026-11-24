@@ -1,10 +1,20 @@
 # Deployment Guide — Isa Hassan Portfolio
 
-This portfolio is production-ready and configured for GitHub Pages deployment. Follow the steps below to get it live.
+This portfolio supports Vercel and GitHub Pages through a Next.js static export.
 
 ---
 
-## Quick Start (Automatic GitHub Actions)
+## Vercel Deployment
+
+1. In your [Vercel account](https://vercel.com/new), import [webwizardtotheapex/portfolio](https://github.com/webwizardtotheapex/portfolio) from GitHub.
+2. Use the detected **Next.js** framework, root directory `./`, build command `npm run build`, and the default output setting. Leave `BASE_PATH` unset/empty.
+3. Deploy, wait for the status to become **Ready**, and check the generated Vercel URL.
+4. In the project's **Settings → Domains**, add `soldevhassan.com` and `www.soldevhassan.com`. Use the exact DNS records recommended on that project's Domains screen; Vercel's assigned values can vary.
+5. Only after the deployment is **Ready** and those domain instructions are available, replace the GitHub Pages apex A records and `www` CNAME in Spaceship with the recommended Vercel records. Keep the Spaceship nameservers, DNSSEC, and other DNS records intact. Confirm both domains show **Valid Configuration** in Vercel, then test their HTTPS URLs.
+
+---
+
+## GitHub Pages Alternative (Automatic GitHub Actions)
 
 ### 1. Push to GitHub
 
@@ -41,6 +51,22 @@ Your portfolio will be live at:
 - **Project repo**: `https://YOUR_USERNAME.github.io/YOUR_REPO/`
 - **User/org site** (`YOUR_USERNAME.github.io` repo): `https://YOUR_USERNAME.github.io/`
 
+### Custom domain: soldevhassan.com
+
+In [repository Pages settings](https://github.com/webwizardtotheapex/portfolio/settings/pages), select **GitHub Actions**, set the custom domain to `soldevhassan.com`, and enable **Enforce HTTPS** once the certificate is available. Keep `public/CNAME` set to the same domain.
+
+At the domain's DNS provider, use the recommended GitHub Pages records:
+
+| Type | Host | Value |
+|------|------|-------|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | webwizardtotheapex.github.io |
+
+The custom domain serves the site at `/`, so leave `BASE_PATH` empty. The workflow already does this when `public/CNAME` exists. The four apex records follow [GitHub's DNS guidance](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site); they do not establish or resolve the cause of a particular network timeout.
+
 ---
 
 ## Manual Deployment (Alternative)
@@ -50,10 +76,10 @@ If you prefer manual control or want to deploy elsewhere:
 ### Build with the correct base path
 
 ```bash
-# For a project site (e.g., github.io/portfolio)
+# For a project site without a custom domain (e.g., github.io/portfolio)
 BASE_PATH=/YOUR_REPO npm run build
 
-# For a user/org site (e.g., github.io)
+# For soldevhassan.com or a user/org site, leave BASE_PATH unset/empty
 npm run build
 ```
 
@@ -160,13 +186,23 @@ Add Google Analytics or Plausible:
 
 **Symptom**: Images, CSS, or JS fail to load after deployment.
 
-**Fix**: Rebuild with `BASE_PATH` set:
+For `soldevhassan.com`, leave `BASE_PATH` unset/empty and rebuild:
+
+```bash
+npm run build
+```
+
+Only set a repository subpath when hosting a project site without a custom domain:
 
 ```bash
 BASE_PATH=/YOUR_REPO npm run build
 ```
 
-The GitHub Actions workflow does this automatically by detecting the repo name.
+The workflow chooses the root path when `public/CNAME` exists, otherwise it detects the repository subpath.
+
+### Domain connection times out
+
+Try the site through another internet connection and compare with an external check. If an external request retrieves the portfolio while your connection times out, the site is reachable through that external network. Check your local DNS cache, VPN/firewall, and ISP routing. An app rebuild cannot fix that connection timeout; adding the recommended DNS records alone does not demonstrate that the network problem is resolved.
 
 ### Build fails with "Module not found"
 

@@ -12,7 +12,7 @@ export function Footer() {
   const year = 2026; // Static export: avoid runtime Date for deterministic output.
 
   return (
-    <footer className="relative mt-6 border-t border-white/[0.08] bg-surface/45">
+    <footer className="voice-agent-clearance relative mt-6 border-t border-white/[0.08] bg-surface/45">
       <div className="mx-auto grid w-full min-w-0 max-w-7xl grid-cols-1 gap-x-16 gap-y-10 px-5 py-14 sm:px-8 md:grid-cols-2 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.7fr)_minmax(0,1fr)] lg:py-16">
         {/* Brand */}
         <div className="min-w-0 md:col-span-2 lg:col-span-1">

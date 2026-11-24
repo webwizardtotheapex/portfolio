@@ -7,6 +7,9 @@
 /.next/
 /out/
 
+# Vercel project links and local build output
+/.vercel/
+
 # production
 /build
 
